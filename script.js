@@ -469,16 +469,17 @@
     const car = document.getElementById("heroCarousel");
     const slides = [...car.querySelectorAll(".slide")];
     const dots = [...car.querySelectorAll(".carousel__dot")];
-    const pauseBtn = car.querySelector(".carousel__pause");
+    const track = car.querySelector(".carousel__track");
+    const state = document.getElementById("carouselState");
     const DUR = 7000;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let idx = 0, elapsed = 0, last = performance.now();
-    let userPaused = reduce, hover = false, focused = false;
+    let userPaused = reduce, swiped = false;
 
     function setPaused(v) {
       userPaused = v;
       car.classList.toggle("is-paused", v);
-      pauseBtn.setAttribute("aria-label", v ? "Play slideshow" : "Pause slideshow");
+      state.textContent = v ? "Paused" : "";
     }
     function go(n) {
       const prev = idx;
@@ -500,11 +501,14 @@
     setPaused(userPaused);
 
     dots.forEach((d, i) => d.addEventListener("click", () => go(i)));
-    pauseBtn.addEventListener("click", () => setPaused(!userPaused));
-    car.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") hover = true; });
-    car.addEventListener("pointerleave", () => { hover = false; });
-    car.addEventListener("focusin", () => { focused = true; });
-    car.addEventListener("focusout", (e) => { if (!car.contains(e.relatedTarget)) focused = false; });
+    // click (or Enter / Space) anywhere on the slides to pause, again to resume
+    track.addEventListener("click", () => {
+      if (swiped) { swiped = false; return; }
+      setPaused(!userPaused);
+    });
+    track.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPaused(!userPaused); }
+    });
     car.addEventListener("keydown", (e) => {
       if (e.key === "ArrowRight") { go(idx + 1); dots[idx].focus(); }
       if (e.key === "ArrowLeft") { go(idx - 1); dots[idx].focus(); }
@@ -514,11 +518,11 @@
     car.addEventListener("pointerup", (e) => {
       if (sx === null) return;
       const dx = e.clientX - sx; sx = null;
-      if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1));
+      if (Math.abs(dx) > 40) { swiped = true; setTimeout(() => { swiped = false; }, 400); go(idx + (dx < 0 ? 1 : -1)); }
     });
 
     function tick(now) {
-      if (!(userPaused || hover || focused || document.hidden)) elapsed += now - last;
+      if (!(userPaused || document.hidden)) elapsed += now - last;
       last = now;
       dots[idx].style.setProperty("--p", Math.min(elapsed / DUR, 1));
       if (elapsed >= DUR) go(idx + 1);

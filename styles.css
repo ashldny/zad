@@ -98,7 +98,7 @@ a { color: var(--carrot-ink); }
 .nav.is-scrolled { border-bottom-color: var(--line); }
 .nav__inner {
   max-width: var(--wrap); margin: 0 auto;
-  padding: 10px var(--gutter);
+  padding: 20px var(--gutter) 12px;
   display: flex; align-items: center; gap: 24px;
 }
 .brand { display: flex; align-items: center; gap: 6px; margin-right: auto; }
@@ -128,8 +128,11 @@ a { color: var(--carrot-ink); }
 /* ============ Hero ============ */
 .hero {
   max-width: var(--wrap); margin: 0 auto;
-  padding: clamp(32px, 6vw, 72px) var(--gutter) clamp(40px, 6vw, 80px);
-  display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: center;
+  padding: clamp(24px, 4vw, 48px) var(--gutter);
+  /* fill the first screen under the nav and sit the content in its middle */
+  min-height: calc(100svh - 80px);
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(24px, 4vw, 56px);
+  align-items: center; align-content: center;
 }
 .hero__copy { container-type: inline-size; min-width: 0; }
 /* sized to its column so "Fresh ingredients." always stays on one line */
@@ -179,7 +182,7 @@ a { color: var(--carrot-ink); }
 .feature-list h3 { font-size: 1.2rem; line-height: 1.2; }
 .feature-list p { font-size: var(--t-sm); color: var(--cocoa-soft); line-height: 1.4; }
 
-.carousel__controls { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 14px; }
+.carousel__controls { position: relative; display: flex; justify-content: center; align-items: center; margin-top: 14px; min-height: 28px; }
 .carousel__dots { display: flex; gap: 8px; }
 .carousel__dot {
   width: 12px; height: 12px; padding: 0; border-radius: 999px;
@@ -189,13 +192,15 @@ a { color: var(--carrot-ink); }
 .carousel__dot.is-active { width: 44px; background: var(--kraft-soft); }
 .carousel__dot span { display: block; height: 100%; width: 0; background: var(--carrot-ink); border-radius: inherit; }
 .carousel__dot.is-active span { width: calc(var(--p, 0) * 100%); }
-.carousel__pause {
-  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
-  border: 2px solid var(--line); background: #fff; color: var(--cocoa); cursor: pointer;
+.carousel__track { cursor: pointer; border-radius: var(--r-lg); }
+.carousel__track:focus-visible { outline: 3px solid var(--carrot); outline-offset: 6px; }
+.carousel__state {
+  position: absolute; left: calc(50% + 54px);
+  font: 600 var(--t-xs)/1 var(--f-body); color: var(--cocoa-soft);
+  padding: .45em .8em; border-radius: 999px; background: var(--kraft-soft);
+  opacity: 0; transition: opacity .2s;
 }
-.carousel__pause svg { width: 14px; height: 14px; fill: currentColor; }
-.carousel__pause .i-play, .carousel.is-paused .carousel__pause .i-pause { display: none; }
-.carousel.is-paused .carousel__pause .i-play { display: block; }
+.carousel.is-paused .carousel__state { opacity: 1; }
 .hero__blob {
   position: absolute; inset: 9% 6% 4% 8%;
   background: var(--butter);
@@ -717,7 +722,7 @@ a { color: var(--carrot-ink); }
 /* ============ Responsive ============ */
 @media (max-width: 1000px) {
   .nav__links { display: none; }
-  .hero { grid-template-columns: minmax(0, 1fr); }
+  .hero { grid-template-columns: minmax(0, 1fr); min-height: 0; padding-top: 32px; padding-bottom: 48px; }
   .carousel { max-width: 560px; width: 100%; margin: 0 auto; }
   .faq { grid-template-columns: 1fr; }
   .faq .section__head { position: static; }
