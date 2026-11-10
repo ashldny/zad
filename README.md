@@ -1,6 +1,6 @@
-<p align="center">
-  <img src="assets/zad-logo.png" alt="Zad | زاد logo" width="220">
-</p>
+<div align="center">
+  <img src="assets/zad-logo.png" alt="Zad | زاد logo" width="150">
+</div>
 
 <h1 align="center">Zad | زاد</h1>
 
@@ -9,7 +9,6 @@
 
 <p align="center">
   <a href="https://ashldny.github.io/zad/">Live site</a> ·
-  <a href="https://ashldny.github.io/zad/?analytics">Live site with analytics panel</a> ·
   <a href="https://ashldny.github.io/zad/?checkout">Checkout preview</a>
 </p>
 
@@ -48,20 +47,6 @@ The other deliverables are kept outside this repo: the idea brief and value prop
 3. **We pack and deliver** the ingredients, weighed and chilled, with a printed recipe card.
 4. **Cook and enjoy.** Follow the card, or scan its QR code for a short video tutorial.
 
-### Business Model Canvas (summary)
-
-| Block | Zad |
-|---|---|
-| **Value proposition** | A convenient way to cook authentic Qatari and Arab dishes at home: fresh ingredients, pre-portioned kits, easy recipes with QR video tutorials, and room to add your own touch |
-| **Customer segments** | Home cooks and families who love homemade food; busy professionals who want fresh, convenient meals; food enthusiasts who like trying new recipes |
-| **Channels** | Mobile app (primary), website, social media, in-store pick-up, and home delivery across Qatar, starting in Doha |
-| **Customer relationships** | Personalized app and web experience, loyalty rewards, flexible subscriptions, recipe and chef content, responsive support |
-| **Revenue streams** | Meal-kit sales per box, weekly or monthly subscriptions, premium and seasonal boxes, add-ons such as desserts, drinks and pantry staples |
-| **Key activities** | Sourcing ingredients, portioning and packing, recipe development and testing, order and delivery management, marketing |
-| **Key resources** | Supplier network, recipe and video content, packing and fulfilment operations, brand, app and customer data, team |
-| **Key partners** | Local farms and produce suppliers, Qatari and regional food suppliers, local chefs and recipe creators, packaging and last-mile delivery partners, payment providers |
-| **Cost structure** | Ingredients, packaging, kitchen and packing facility, delivery, app and website, marketing, team and overheads |
-
 ### Plans shown on the site (illustrative)
 
 | Plan | What's included | Price |
@@ -81,21 +66,6 @@ The other deliverables are kept outside this repo: the idea brief and value prop
 - **Plans, ordering channels, FAQ** and a founding-families waitlist
 - **Box and checkout:** the cart merges repeat items into one line with +/− quantity controls and dish thumbnails. Checkout covers the delivery address, delivery day and time, payment method, an order summary, and an order confirmation with a delivery tracker.
 
-### Analytics
-
-Every key action is pushed to `window.dataLayer`, ready to connect to Google Analytics 4 or Plausible:
-
-| Event | Funnel step it measures |
-|---|---|
-| `page_view` | Visits |
-| `recipe_view` | Recipe cards actually seen (at least 60% on screen) |
-| `add_to_box` | Interest in a recipe or plan |
-| `checkout_start` | Checkout started |
-| `purchase` | Orders placed |
-| `waitlist_signup` | Sign-ups for the launch list |
-
-Add `?analytics` to the URL to show a small funnel panel with these counts and the add-to-box rate. This is handy for demos and presentation screenshots.
-
 ### Run it locally
 
 No build step: it's plain HTML, CSS and JavaScript.
@@ -111,7 +81,7 @@ Then open http://localhost:8000.
 ```
 index.html        page markup
 styles.css        all styles (brand colours and type are defined at the top)
-script.js         menu, customizer, cart, checkout, carousel and analytics
+script.js         menu, customizer, cart, checkout and carousel
 assets/           logo, wordmark, box illustrations and favicon
 ```
 
