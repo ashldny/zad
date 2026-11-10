@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zad | زاد · Qatari meal kits, delivered</title>
+  <meta name="description" content="Zad delivers fresh, pre-portioned ingredients and easy recipes for authentic Qatari and Arab home cooking, across Qatar.">
+  <meta property="og:title" content="Zad | زاد · Fresh ingredients. Your touch. Your meal.">
+  <meta property="og:description" content="Meal kits for Qatari and Arab home cooking: fresh ingredients, pre-portioned spices and step-by-step recipes.">
+  <meta property="og:image" content="assets/zad-logo.png">
+  <meta name="theme-color" content="#FDF7EE">
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Shared SVG filter that gives drawn shapes the same crayon wobble as the logo -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="crayon" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.2"/>
+    </filter>
+  </svg>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="top">
+    <div class="nav__inner">
+      <a class="brand" href="#top" aria-label="Zad home">
+        <img class="brand__box" src="assets/zad-box.png" alt="" width="54" height="38">
+        <img class="brand__word" src="assets/zad-wordmark.png" alt="Zad | زاد" width="120" height="28">
+      </a>
+      <nav class="nav__links" aria-label="Main">
+        <a href="#how">How it works</a>
+        <a href="#menu">This week</a>
+        <a href="#plans">Plans</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav__actions">
+        <button class="boxbtn" type="button" id="boxBtn" aria-haspopup="dialog" aria-controls="drawer">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 12 L16 8 L27 12 L27 25 L16 28 L5 25 Z M5 12 L16 16 L27 12 M16 16 L16 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg>
+          <span class="sr-only">Your box,</span>
+          <span class="boxbtn__count" id="boxCount">0</span>
+          <span class="sr-only">items</span>
+        </button>
+        <a class="btn btn--primary btn--sm" href="#menu" data-track="cta_click" data-label="nav">Get started</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__copy">
+        <h1 class="hero__title">Fresh ingredients.<br>Your touch.<br>Your meal.</h1>
+        <p class="hero__ar" lang="ar" dir="rtl">مكونات طازجة. لمستك. وجبتك.</p>
+        <p class="hero__lede">Zad brings everything you need for a Qatari or Arab home-cooked dish in one box: fresh produce, pre-measured spices and a recipe you can actually follow. You do the cooking. We do the shopping.</p>
+        <div class="hero__ctas">
+          <a class="btn btn--primary" href="#menu" data-track="cta_click" data-label="hero_primary">Choose this week's recipes</a>
+          <a class="btn btn--ghost" href="#how">See how it works</a>
+        </div>
+        <p class="hero__note">Delivering across Doha first, the rest of Qatar soon.</p>
+      </div>
+
+      <figure class="hero__art" aria-label="An open Zad box with parsley, tomatoes, lemon, onion, rice, spice pots and a recipe card">
+        <div class="hero__blob" aria-hidden="true"></div>
+        <img class="hero__kit" src="assets/zad-kit.png" alt="" width="450" height="440">
+        <svg class="notes" viewBox="0 0 600 560" aria-hidden="true">
+          <g class="note note--1">
+            <path class="note__line" d="M118 92 C 150 70, 205 74, 236 118" />
+            <path class="note__line" d="M226 104 L 236 118 L 220 120" />
+          </g>
+          <g class="note note--2">
+            <path class="note__line" d="M520 150 C 520 190, 500 210, 462 214" />
+            <path class="note__line" d="M476 204 L 462 214 L 476 224" />
+          </g>
+          <g class="note note--3">
+            <path class="note__line" d="M60 438 C 90 470, 150 470, 190 420" />
+            <path class="note__line" d="M176 424 L 190 420 L 192 434" />
+          </g>
+          <g class="note note--4">
+            <path class="note__line" d="M540 470 C 520 430, 480 410, 430 400" />
+            <path class="note__line" d="M442 392 L 430 400 L 444 408" />
+          </g>
+        </svg>
+        <figcaption class="scribble scribble--1">farm-fresh parsley<br>&amp; tomatoes</figcaption>
+        <span class="scribble scribble--2" aria-hidden="true">recipe card<br>+ QR video</span>
+        <span class="scribble scribble--3" aria-hidden="true">every spice<br>pre-measured</span>
+        <span class="scribble scribble--4" aria-hidden="true">just enough rice,<br>nothing wasted</span>
+      </figure>
+    </section>
+
+    <!-- PILLARS -->
+    <section class="pillars" aria-label="What's in every Zad box">
+      <ul class="pillars__list">
+        <li>
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 38 C 10 18, 22 8, 40 8 C 40 28, 30 38, 10 38 Z M10 38 L 28 20" /></svg>
+          <span><strong>Fresh ingredients</strong> from local farms and trusted Qatari suppliers</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 30 C 6 30, 6 18, 14 18 C 14 10, 24 8, 26 14 C 30 8, 42 12, 38 20 C 44 22, 42 31, 34 30 L 34 40 L 14 40 Z M14 34 L 34 34" /></svg>
+          <span><strong>Authentic recipes</strong> developed with home cooks and local chefs</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 16 L 24 9 L 42 16 L 42 36 L 24 42 L 6 36 Z M6 16 L 24 23 L 42 16 M24 23 L 24 42 M15 12.5 L 33 19.5" /></svg>
+          <span><strong>Pre-portioned kits</strong> sized for one, two or the whole family</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 40 C 10 30, 4 22, 8 14 C 12 7, 21 8, 24 15 C 27 8, 36 7, 40 14 C 44 22, 38 30, 24 40 Z" /></svg>
+          <span><strong>Your personal touch</strong> on spice, servings and swaps</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section how" id="how">
+      <div class="section__head">
+        <h2>From our box to your table in four steps</h2>
+        <p>Order by Thursday and your box arrives on the delivery day you pick.</p>
+      </div>
+      <ol class="steps">
+        <li class="step">
+          <span class="step__num" aria-hidden="true">1</span>
+          <h3>Pick your recipes</h3>
+          <p>Browse the weekly menu in the Zad app or on the website and choose what you feel like cooking.</p>
+        </li>
+        <li class="step">
+          <span class="step__num" aria-hidden="true">2</span>
+          <h3>Make it yours</h3>
+          <p>Set servings, swap the protein and choose how much spice. The ingredients adjust to match.</p>
+        </li>
+        <li class="step">
+          <span class="step__num" aria-hidden="true">3</span>
+          <h3>We pack and deliver</h3>
+          <p>Everything is weighed, packed in a chilled box and brought to your door, with a printed recipe card.</p>
+        </li>
+        <li class="step">
+          <span class="step__num" aria-hidden="true">4</span>
+          <h3>Cook and enjoy</h3>
+          <p>Follow the card or scan the QR code for a short video. Most dishes are ready in under an hour.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- MENU -->
+    <section class="section menu" id="menu">
+      <div class="section__head section__head--row">
+        <div>
+          <h2>On the menu this week</h2>
+          <p>Six dishes, all with ingredients for 2 servings. Change servings at checkout.</p>
+        </div>
+        <div class="filters" role="group" aria-label="Filter recipes">
+          <button type="button" class="chip is-on" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="chip" data-filter="chicken" aria-pressed="false">Chicken</button>
+          <button type="button" class="chip" data-filter="meat" aria-pressed="false">Meat</button>
+          <button type="button" class="chip" data-filter="seafood" aria-pressed="false">Seafood</button>
+          <button type="button" class="chip" data-filter="veg" aria-pressed="false">Vegetarian</button>
+          <button type="button" class="chip" data-filter="sweet" aria-pressed="false">Sweet</button>
+        </div>
+      </div>
+      <ul class="recipes" id="recipes"></ul>
+    </section>
+
+    <!-- CUSTOMIZER -->
+    <section class="section touch" id="touch">
+      <div class="touch__inner">
+        <div class="touch__copy">
+          <h2>Add your own touch</h2>
+          <p>Every recipe is a starting point. Try it with our machboos: change the protein, the servings or the heat, and watch the recipe card update.</p>
+
+          <fieldset class="opt">
+            <legend>Protein</legend>
+            <div class="seg" data-key="protein">
+              <label><input type="radio" name="protein" value="chicken" checked><span>Chicken</span></label>
+              <label><input type="radio" name="protein" value="lamb"><span>Lamb</span></label>
+              <label><input type="radio" name="protein" value="shrimp"><span>Shrimp</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="opt">
+            <legend>Servings</legend>
+            <div class="seg" data-key="servings">
+              <label><input type="radio" name="servings" value="2" checked><span>2</span></label>
+              <label><input type="radio" name="servings" value="4"><span>4</span></label>
+              <label><input type="radio" name="servings" value="6"><span>6</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="opt">
+            <legend>Spice level</legend>
+            <div class="seg" data-key="spice">
+              <label><input type="radio" name="spice" value="0.7"><span>Gentle</span></label>
+              <label><input type="radio" name="spice" value="1" checked><span>Classic</span></label>
+              <label><input type="radio" name="spice" value="1.4"><span>Bold</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="opt">
+            <legend>Add-ons</legend>
+            <div class="checks">
+              <label><input type="checkbox" name="addon" value="luqaimat"><span>Luqaimat with date syrup <em>+ QAR 18</em></span></label>
+              <label><input type="checkbox" name="addon" value="laban"><span>Fresh laban, 1 L <em>+ QAR 9</em></span></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <article class="card-recipe" aria-live="polite">
+          <header class="card-recipe__head">
+            <div>
+              <h3 id="cardTitle">Chicken machboos</h3>
+              <p class="card-recipe__ar" lang="ar" dir="rtl" id="cardTitleAr">مكبوس دجاج</p>
+            </div>
+            <span class="card-recipe__time">45 min</span>
+          </header>
+          <p class="card-recipe__hand">for <span id="cardServ">2</span> hungry people</p>
+          <ul class="card-recipe__list" id="cardList"></ul>
+          <footer class="card-recipe__foot">
+            <div>
+              <span class="card-recipe__label">Your kit</span>
+              <strong class="card-recipe__price" id="cardPrice">QAR 58</strong>
+            </div>
+            <button class="btn btn--primary" type="button" id="cardAdd">Add to box</button>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <!-- AUDIENCE -->
+    <section class="section who">
+      <div class="section__head">
+        <h2>Made for people who love home food</h2>
+      </div>
+      <div class="who__grid">
+        <div class="who__item">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 24 L 24 8 L 42 24 M11 20 L 11 40 L 37 40 L 37 20 M20 40 L 20 29 L 28 29 L 28 40" /></svg>
+          <h3>Home cooks and families</h3>
+          <p>Cook the dishes you grew up with on a weeknight, without the trip to three different shops.</p>
+        </div>
+        <div class="who__item">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6 A 18 18 0 1 1 23.9 6 Z M24 14 L 24 24 L 32 28" /></svg>
+          <h3>Busy professionals</h3>
+          <p>Fresh, real food after work. No meal planning, no half-used bunches of herbs going limp in the fridge.</p>
+        </div>
+        <div class="who__item">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 40 L 40 8 M30 8 L 40 8 L 40 18 M8 22 C 8 12, 14 8, 22 8 M26 40 C 34 40, 40 34, 40 26" /></svg>
+          <h3>Curious cooks</h3>
+          <p>New to harees or saloona? Learn traditional techniques step by step, then make them your own.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLANS -->
+    <section class="section plans" id="plans">
+      <div class="section__head">
+        <h2>Plans that fit your week</h2>
+        <p>Pause, skip or cancel any week from the app. Delivery is included.</p>
+      </div>
+      <div class="plans__grid">
+        <article class="plan">
+          <h3>Solo</h3>
+          <p class="plan__desc">2 recipes for 1 person</p>
+          <p class="plan__price"><span>QAR</span> 165<small>/week</small></p>
+          <ul>
+            <li>About QAR 41 per meal</li>
+            <li>Full weekly menu</li>
+            <li>Recipe cards and videos</li>
+          </ul>
+          <button class="btn btn--ghost" type="button" data-plan="Solo">Choose Solo</button>
+        </article>
+        <article class="plan plan--featured">
+          <p class="plan__tag">Most popular</p>
+          <h3>Family</h3>
+          <p class="plan__desc">3 recipes for 4 people</p>
+          <p class="plan__price"><span>QAR</span> 310<small>/week</small></p>
+          <ul>
+            <li>About QAR 26 per serving</li>
+            <li>Kid-friendly spice option</li>
+            <li>Free dessert in your first box</li>
+          </ul>
+          <button class="btn btn--primary" type="button" data-plan="Family">Choose Family</button>
+        </article>
+        <article class="plan">
+          <h3>Chef Plus</h3>
+          <p class="plan__desc">4 recipes with premium ingredients</p>
+          <p class="plan__price"><span>QAR</span> 440<small>/week</small></p>
+          <ul>
+            <li>Chef collaboration recipes</li>
+            <li>Seasonal Ramadan and Eid boxes</li>
+            <li>Priority delivery slots</li>
+          </ul>
+          <button class="btn btn--ghost" type="button" data-plan="Chef Plus">Choose Chef Plus</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- APP -->
+    <section class="section app">
+      <div class="app__inner">
+        <div class="phone" aria-hidden="true">
+          <div class="phone__screen">
+            <div class="phone__bar"><img src="assets/zad-wordmark.png" alt=""><span class="phone__dot"></span></div>
+            <p class="phone__hi">Good evening, Noor</p>
+            <p class="phone__q">What are we cooking this week?</p>
+            <div class="phone__row"><span class="phone__plate" style="--c:#E7B45A"></span><div><b>Chicken machboos</b><i>45 min · 2 servings</i></div><span class="phone__add">+</span></div>
+            <div class="phone__row"><span class="phone__plate" style="--c:#C98A4B"></span><div><b>Lamb thareed</b><i>60 min · 2 servings</i></div><span class="phone__add">+</span></div>
+            <div class="phone__row"><span class="phone__plate" style="--c:#E9D3A6"></span><div><b>Harees</b><i>90 min · 2 servings</i></div><span class="phone__add is-added">✓</span></div>
+            <div class="phone__cta">Review my box (1)</div>
+          </div>
+        </div>
+        <div class="app__copy">
+          <h2>Order from the app, the website or Snoonu</h2>
+          <p>The Zad app is the easiest way to plan your week, manage your subscription and collect loyalty rewards. Prefer something quick? You can also order single boxes on our website or through Snoonu.</p>
+          <ul class="app__list">
+            <li>Save favourite recipes and reorder in one tap</li>
+            <li>Earn points on every box towards free desserts and pantry staples</li>
+            <li>Get a reminder before each weekly cut-off</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq" id="faq">
+      <div class="section__head">
+        <h2>Questions, answered</h2>
+      </div>
+      <div class="faq__list">
+        <details>
+          <summary>Where do you deliver?</summary>
+          <p>We're starting in Doha, Al Wakrah and Al Rayyan, with more of Qatar to follow. Enter your area at checkout to see your delivery days.</p>
+        </details>
+        <details>
+          <summary>How fresh is everything when it arrives?</summary>
+          <p>Produce is packed the day before delivery and travels in an insulated, chilled box. Meat and seafood stay cold for up to 8 hours after drop-off.</p>
+        </details>
+        <details>
+          <summary>Can I skip a week or cancel?</summary>
+          <p>Yes. Skip, pause or cancel from the app any time before Thursday at midnight. There are no fees or minimum commitments.</p>
+        </details>
+        <details>
+          <summary>What if I have allergies?</summary>
+          <p>Each recipe lists all 14 major allergens. You can filter the menu by allergen, and swap ingredients on many dishes.</p>
+        </details>
+        <details>
+          <summary>What happens to the packaging?</summary>
+          <p>Boxes are recyclable cardboard and our ice packs are reusable. Hand them back to the driver on your next delivery and we'll reuse them.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- WAITLIST -->
+    <section class="waitlist" id="join">
+      <div class="waitlist__inner">
+        <img class="waitlist__logo" src="assets/zad-logo.png" alt="" width="180" height="180">
+        <div class="waitlist__copy">
+          <h2>Be one of our 500 founding families</h2>
+          <p>We're launching with a small group of households in Doha. Join the list and get your first box at half price.</p>
+          <form class="waitlist__form" id="waitlistForm" novalidate>
+            <label class="sr-only" for="email">Email address</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+            <button class="btn btn--primary" type="submit">Join the list</button>
+          </form>
+          <p class="waitlist__msg" id="waitlistMsg" role="status"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <img src="assets/zad-wordmark.png" alt="Zad | زاد" width="120" height="28">
+        <p><span lang="ar" dir="rtl">زاد</span> means provisions: food you carry for the journey.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer">
+        <a href="#how">How it works</a>
+        <a href="#menu">This week</a>
+        <a href="#plans">Plans</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <p class="footer__fine">A CMPS307 student project prototype. Menus, prices and delivery details are illustrative.</p>
+    </div>
+  </footer>
+
+  <!-- Box drawer -->
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+    <div class="drawer__scrim" data-close></div>
+    <div class="drawer__panel">
+      <div class="drawer__head">
+        <h2 id="drawerTitle">Your box</h2>
+        <button type="button" class="drawer__close" data-close aria-label="Close your box">×</button>
+      </div>
+      <ul class="drawer__list" id="drawerList"></ul>
+      <p class="drawer__empty" id="drawerEmpty">Your box is empty. Add a recipe from this week's menu to get started.</p>
+      <div class="drawer__foot">
+        <div class="drawer__total"><span>Total</span><strong id="drawerTotal">QAR 0</strong></div>
+        <button class="btn btn--primary btn--block" type="button" id="checkoutBtn">Go to checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Analytics preview panel (visible with ?analytics in the URL) -->
+  <aside class="stats" id="stats" hidden aria-label="Analytics preview">
+    <h2>Funnel preview</h2>
+    <dl id="statsList"></dl>
+    <p>Events are logged to <code>window.dataLayer</code>. Swap in GA4 or Plausible for real data.</p>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
