@@ -145,12 +145,13 @@
   const chili = (n) => `<span class="spice" aria-label="Spice level: ${SPICE[n]}"><span class="spice__icons" aria-hidden="true">${[0, 1, 2].map((i) => chiliIcon(i < n)).join("")}</span>${SPICE[n]}</span>`;
   const clock = `<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.5 V 8 L 10.5 9.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
 
+  const PLATES = Object.fromEntries(RECIPES.map((r, i) => [r.id, plateSVG(r, i * 97 + 13)]));
   const list = document.getElementById("recipes");
-  list.innerHTML = RECIPES.map((r, i) => `
+  list.innerHTML = RECIPES.map((r) => `
     <li class="recipe" data-cat="${r.cat}" data-id="${r.id}">
       <div class="recipe__plate" style="background:${r.bg}">
         ${r.badge ? `<span class="recipe__badge">${r.badge}</span>` : ""}
-        ${plateSVG(r, i * 97 + 13)}
+        ${PLATES[r.id]}
       </div>
       <div class="recipe__body">
         <div class="recipe__names"><h3>${r.name}</h3><span class="recipe__ar" lang="ar" dir="rtl">${r.ar}</span></div>
@@ -158,7 +159,7 @@
         <div class="recipe__meta"><span>${clock}${r.time} min</span>${chili(r.spice)}</div>
         <div class="recipe__foot">
           <span class="recipe__price">${qar(r.price)} <small>for 2</small></span>
-          <button type="button" class="addbtn" data-add="${r.id}" aria-label="Add ${r.name} to box">Add to box</button>
+          <div class="recipe__action" data-for="${r.id}"></div>
         </div>
       </div>
     </li>`).join("");
@@ -187,6 +188,7 @@
   }
 
   /* ---------- box (cart) ---------- */
+  // One line per distinct item; adding the same thing again raises its quantity.
   const box = [];
   const boxBtn = document.getElementById("boxBtn");
   const boxCount = document.getElementById("boxCount");
@@ -194,50 +196,108 @@
   const drawerList = document.getElementById("drawerList");
   const drawerEmpty = document.getElementById("drawerEmpty");
   const drawerTotal = document.getElementById("drawerTotal");
+  const co = document.getElementById("checkout");
+  const PLAN_PRICES = { Solo: 165, Family: 310, "Chef Plus": 440 };
+  const keyOf = (item) => (item.plan ? "plan" : `${item.id}|${item.detail}`);
+  const count = () => box.reduce((a, b) => a + b.qty, 0);
+  const subtotal = () => box.reduce((a, b) => a + b.price * b.qty, 0);
+  const recipeKey = (id) => `${id}|2 servings`;
+  const TRASH = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 4.5 H 13 M6.5 4.5 V 3 H 9.5 V 4.5 M4.5 4.5 L 5.2 13 H 10.8 L 11.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>';
+
+  function thumb(b) {
+    if (b.plan) return '<span class="thumb thumb--plan"><img src="assets/zad-box.png" alt=""></span>';
+    const r = RECIPES.find((x) => x.id === b.dish) || RECIPES[0];
+    return `<span class="thumb" style="background:${r.bg}">${PLATES[r.id]}</span>`;
+  }
+  function stepper(key, qty, name, fixed) {
+    return `<div class="qty" role="group" aria-label="Quantity of ${name}">
+      <button type="button" data-qty="-1" data-key="${key}" aria-label="${qty === 1 ? "Remove" : "Remove one"} ${name}">${qty === 1 ? TRASH : "−"}</button>
+      <span class="qty__n">${qty}</span>
+      <button type="button" data-qty="1" data-key="${key}" aria-label="Add one more ${name}"${fixed ? " disabled" : ""}>+</button>
+    </div>`;
+  }
+  const lineHTML = (b) => `
+    <li class="line">
+      ${thumb(b)}
+      <div class="line__info">
+        <span class="line__name">${b.name}</span>
+        <small>${b.detail}${b.qty > 1 ? ` · ${qar(b.price)} each` : ""}</small>
+        ${stepper(b.key, b.qty, b.name, b.plan)}
+      </div>
+      <b class="line__price">${qar(b.price * b.qty)}</b>
+    </li>`;
 
   function addToBox(item) {
-    if (item.plan) {
-      const i = box.findIndex((b) => b.plan);
-      if (i > -1) box.splice(i, 1);
+    const key = keyOf(item);
+    let line = box.find((b) => b.key === key);
+    if (item.plan && line && line.name !== item.name) { box.splice(box.indexOf(line), 1); line = null; }
+    if (line) {
+      if (line.plan) { toast(`${line.name} is already in your box`); return; }
+      line.qty += 1;
+    } else {
+      box.push({ ...item, key, qty: 1 });
     }
-    box.push({ ...item, key: Date.now() + Math.random() });
     track("add_to_box", { item: item.name, value: item.price });
     renderBox();
     boxBtn.classList.remove("is-bump"); void boxBtn.offsetWidth; boxBtn.classList.add("is-bump");
-    toast(`Added ${item.name} to your box`);
+    toast(line ? `${item.name}: ${line.qty} in your box` : `Added ${item.name} to your box`);
+  }
+  function changeQty(key, delta) {
+    const line = box.find((b) => b.key === key);
+    if (!line) return;
+    if (delta > 0) { line.qty += 1; track("add_to_box", { item: line.name, value: line.price }); }
+    else { line.qty -= 1; if (line.qty <= 0) box.splice(box.indexOf(line), 1); }
+    renderBox();
   }
   function renderBox() {
-    boxCount.textContent = box.length;
+    boxCount.textContent = count();
     drawerEmpty.hidden = box.length > 0;
-    drawerList.innerHTML = box.map((b) => `
-      <li><span>${b.name}<small>${b.detail}</small></span>
-      <span class="drawer__price">${qar(b.price)} <button type="button" data-remove="${b.key}" aria-label="Remove ${b.name}">Remove</button></span></li>`).join("");
-    drawerTotal.textContent = qar(box.reduce((a, b) => a + b.price, 0));
-    document.querySelectorAll("[data-add]").forEach((btn) => {
-      const inBox = box.some((b) => b.id === btn.dataset.add);
-      btn.classList.toggle("is-added", inBox);
-      btn.textContent = inBox ? "Added ✓" : "Add to box";
+    drawerList.innerHTML = box.map(lineHTML).join("");
+    drawerTotal.textContent = qar(subtotal());
+    document.querySelectorAll(".recipe__action").forEach((el) => {
+      const r = RECIPES.find((x) => x.id === el.dataset.for);
+      const line = box.find((b) => b.key === recipeKey(r.id));
+      el.innerHTML = line
+        ? stepper(line.key, line.qty, r.name)
+        : `<button type="button" class="addbtn" data-add="${r.id}" aria-label="Add ${r.name} to box">Add to box</button>`;
     });
+    if (!co.hidden) {
+      if (!box.length) { closeCheckout(); toast("Your box is empty. Add a recipe to check out."); }
+      else renderSummary();
+    }
   }
 
   document.addEventListener("click", (e) => {
     const add = e.target.closest("[data-add]");
     if (add) {
       const r = RECIPES.find((x) => x.id === add.dataset.add);
-      addToBox({ id: r.id, name: r.name, detail: "2 servings", price: r.price });
+      addToBox({ id: r.id, dish: r.id, name: r.name, detail: "2 servings", price: r.price });
+      list.querySelector(`.recipe__action[data-for="${r.id}"] [data-qty="1"]`)?.focus();
+      return;
     }
     const plan = e.target.closest("[data-plan]");
     if (plan) {
       const name = plan.dataset.plan;
-      const price = { Solo: 165, Family: 310, "Chef Plus": 440 }[name];
-      addToBox({ plan: true, name: `${name} plan`, detail: "Weekly subscription", price });
+      addToBox({ plan: true, id: "plan", name: `${name} plan`, detail: "Weekly subscription", price: PLAN_PRICES[name] });
+      return;
     }
-    const rm = e.target.closest("[data-remove]");
-    if (rm) {
-      const i = box.findIndex((b) => String(b.key) === rm.dataset.remove);
-      if (i > -1) box.splice(i, 1);
-      renderBox();
-      drawer.querySelector(".drawer__close").focus();
+    const q = e.target.closest("[data-qty]");
+    if (q) {
+      const scope = q.closest(".drawer, .checkout, .recipe__action");
+      const scopeFor = scope && scope.dataset.for;
+      const key = q.dataset.key, d = q.dataset.qty;
+      changeQty(key, +d);
+      // keep keyboard focus on the same control after the list re-renders
+      const sel = `[data-key="${CSS.escape(key)}"][data-qty="${d}"]`;
+      let again = null;
+      if (scopeFor) {
+        const fresh = list.querySelector(`.recipe__action[data-for="${scopeFor}"]`);
+        again = fresh.querySelector(sel) || fresh.querySelector("[data-add]");
+      } else if (scope) {
+        again = scope.querySelector(sel);
+      }
+      if (again) again.focus();
+      else if (scope && scope.classList.contains("drawer")) drawer.querySelector(".drawer__close").focus();
     }
   });
 
@@ -248,12 +308,10 @@
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !drawer.hidden) closeDrawer(); });
 
   /* ---------- checkout (visual prototype) ---------- */
-  const co = document.getElementById("checkout");
   const coForm = document.getElementById("checkoutForm");
   const coMain = document.getElementById("coMain");
   const coDone = document.getElementById("coDone");
   const coErr = document.getElementById("coError");
-  const subtotal = () => box.reduce((a, b) => a + b.price, 0);
 
   // next five delivery days, starting two days from today
   const days = document.getElementById("coDays");
@@ -266,8 +324,7 @@
 
   function renderSummary() {
     const sub = subtotal(), disc = Math.round(sub * 0.5);
-    document.getElementById("coItems").innerHTML = box.map((b) =>
-      `<li><span>${b.name}<small>${b.detail}</small></span><b>${qar(b.price)}</b></li>`).join("");
+    document.getElementById("coItems").innerHTML = box.map(lineHTML).join("");
     document.getElementById("coSub").textContent = qar(sub);
     document.getElementById("coDisc").textContent = `− ${qar(disc)}`;
     document.getElementById("coTotal").textContent = qar(sub - disc);
@@ -281,7 +338,7 @@
     co.hidden = false; co.scrollTop = 0;
     document.body.style.overflow = "hidden";
     co.querySelector(".checkout__back").focus();
-    track("checkout_start", { items: box.length, value: subtotal() });
+    track("checkout_start", { items: count(), value: subtotal() });
   }
   function closeCheckout() {
     co.hidden = true; document.body.style.overflow = ""; boxBtn.focus();
@@ -304,17 +361,19 @@
     const slot = coForm.querySelector('input[name="slot"]:checked').value;
     document.getElementById("coWhen").textContent = `${day}, ${slot}`;
     document.getElementById("coRef").textContent = `ZAD-${Math.floor(1000 + Math.random() * 9000)}`;
-    track("purchase", { value: subtotal() - Math.round(subtotal() * 0.5), items: box.length });
+    track("purchase", { value: subtotal() - Math.round(subtotal() * 0.5), items: count() });
     box.length = 0; renderBox(); coForm.reset();
     coMain.hidden = true; coDone.hidden = false; co.scrollTop = 0;
     document.getElementById("coDoneTitle").focus();
   });
 
+  renderBox();
+
   // ?checkout opens the screen straight away with a sample box, handy for screenshots
   if (new URLSearchParams(location.search).has("checkout")) {
     const m = RECIPES[0], l = RECIPES[5];
-    box.push({ id: m.id, name: m.name, detail: "2 servings", price: m.price, key: 1 },
-             { id: l.id, name: l.name, detail: "Add-on", price: l.price, key: 2 });
+    box.push({ id: m.id, dish: m.id, name: m.name, detail: "2 servings", price: m.price, key: recipeKey(m.id), qty: 2 },
+             { id: l.id, dish: l.id, name: l.name, detail: "2 servings", price: l.price, key: recipeKey(l.id), qty: 1 });
     renderBox();
     openCheckout();
   }
@@ -370,7 +429,7 @@
     const { c, p, price } = renderCard();
     const heat = { 0.7: "gentle", 1: "classic", 1.4: "bold" }[c.spice];
     const extras = c.addons.map((a) => ADDONS[a].name.toLowerCase());
-    addToBox({ id: `custom-${c.protein}`, name: p.title, detail: [`${c.servings} servings`, `${heat} spice`, ...extras].join(", "), price });
+    addToBox({ id: `custom-${c.protein}`, dish: "machboos", name: p.title, detail: [`${c.servings} servings`, `${heat} spice`, ...extras].join(", "), price });
   });
   renderCard();
 
@@ -404,6 +463,69 @@
     head.setAttribute("d", `M${wing(0.5)} L${tip.x},${tip.y} L${wing(-0.5)}`);
     path.after(head);
   });
+
+  /* ---------- hero carousel ---------- */
+  (() => {
+    const car = document.getElementById("heroCarousel");
+    const slides = [...car.querySelectorAll(".slide")];
+    const dots = [...car.querySelectorAll(".carousel__dot")];
+    const pauseBtn = car.querySelector(".carousel__pause");
+    const DUR = 7000;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let idx = 0, elapsed = 0, last = performance.now();
+    let userPaused = reduce, hover = false, focused = false;
+
+    function setPaused(v) {
+      userPaused = v;
+      car.classList.toggle("is-paused", v);
+      pauseBtn.setAttribute("aria-label", v ? "Play slideshow" : "Pause slideshow");
+    }
+    function go(n) {
+      const prev = idx;
+      idx = (n + slides.length) % slides.length;
+      elapsed = 0;
+      dots.forEach((d) => d.style.setProperty("--p", 0));
+      if (prev === idx) return;
+      slides[prev].classList.remove("is-active");
+      slides[prev].classList.add("is-leaving");
+      setTimeout(() => slides[prev].classList.remove("is-leaving"), 600);
+      slides[idx].classList.add("is-active");
+      slides.forEach((s, i) => { s.inert = i !== idx; s.setAttribute("aria-hidden", String(i !== idx)); });
+      dots.forEach((d, i) => {
+        d.classList.toggle("is-active", i === idx);
+        if (i === idx) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
+      });
+    }
+    slides.forEach((s, i) => { s.inert = i !== 0; s.setAttribute("aria-hidden", String(i !== 0)); });
+    setPaused(userPaused);
+
+    dots.forEach((d, i) => d.addEventListener("click", () => go(i)));
+    pauseBtn.addEventListener("click", () => setPaused(!userPaused));
+    car.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") hover = true; });
+    car.addEventListener("pointerleave", () => { hover = false; });
+    car.addEventListener("focusin", () => { focused = true; });
+    car.addEventListener("focusout", (e) => { if (!car.contains(e.relatedTarget)) focused = false; });
+    car.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { go(idx + 1); dots[idx].focus(); }
+      if (e.key === "ArrowLeft") { go(idx - 1); dots[idx].focus(); }
+    });
+    let sx = null;
+    car.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse") sx = e.clientX; });
+    car.addEventListener("pointerup", (e) => {
+      if (sx === null) return;
+      const dx = e.clientX - sx; sx = null;
+      if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1));
+    });
+
+    function tick(now) {
+      if (!(userPaused || hover || focused || document.hidden)) elapsed += now - last;
+      last = now;
+      dots[idx].style.setProperty("--p", Math.min(elapsed / DUR, 1));
+      if (elapsed >= DUR) go(idx + 1);
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
 
   /* ---------- nav ---------- */
   const nav = document.querySelector(".nav");

@@ -61,56 +61,72 @@
           <a class="btn btn--primary" href="#menu" data-track="cta_click" data-label="hero_primary">Choose this week's recipes</a>
           <a class="btn btn--ghost" href="#how">See how it works</a>
         </div>
-        <p class="hero__note">Delivering across Doha first, the rest of Qatar soon.</p>
       </div>
 
-      <figure class="hero__art" aria-label="An open Zad box with parsley, tomatoes, lemon, onion, rice, spice pots and a recipe card">
-        <div class="hero__blob" aria-hidden="true"></div>
-        <img class="hero__kit" src="assets/zad-kit.png" alt="" width="450" height="440">
-        <!-- Notes and arrows share one coordinate system so they stay attached at every size.
-             Arrowheads are added by script.js from the end of each path. -->
-        <svg class="notes" viewBox="0 0 600 560" aria-hidden="true">
-          <g class="note note--1">
-            <text class="scribble" x="14" y="48"><tspan x="14">farm-fresh parsley</tspan><tspan x="14" dy="27">&amp; tomatoes</tspan></text>
-            <path class="note__line" data-arrow d="M120 90 C 140 118, 160 146, 192 166" />
-          </g>
-          <g class="note note--2">
-            <text class="scribble" x="590" y="70" text-anchor="end"><tspan x="590">recipe card</tspan><tspan x="590" dy="27">+ QR video</tspan></text>
-            <path class="note__line" data-arrow d="M548 110 C 540 140, 510 160, 470 168" />
-          </g>
-          <g class="note note--3">
-            <text class="scribble" x="6" y="452"><tspan x="6">every spice</tspan><tspan x="6" dy="27">pre-measured</tspan></text>
-            <path class="note__line" data-arrow d="M146 472 C 214 470, 266 428, 298 364" />
-          </g>
-          <g class="note note--4">
-            <text class="scribble" x="596" y="512" text-anchor="end"><tspan x="596">just enough rice,</tspan><tspan x="596" dy="27">nothing wasted</tspan></text>
-            <path class="note__line" data-arrow d="M560 486 C 558 420, 516 362, 456 336" />
-          </g>
-        </svg>
-        <figcaption class="sr-only">Farm-fresh parsley and tomatoes, a recipe card with a QR video, pre-measured spices and just enough rice.</figcaption>
-      </figure>
-    </section>
+      <div class="carousel" id="heroCarousel" role="region" aria-roledescription="carousel" aria-label="About Zad">
+        <div class="carousel__track" aria-live="off">
+          <figure class="slide slide--box is-active" role="group" aria-roledescription="slide" aria-label="1 of 3: Inside a Zad box">
+            <div class="hero__blob" aria-hidden="true"></div>
+            <img class="hero__kit" src="assets/zad-kit.png" alt="An open Zad box with parsley, tomatoes, lemon, onion, rice, spice pots and a recipe card" width="450" height="455">
+            <!-- Notes and arrows share one coordinate system so they stay attached at every size.
+                 Arrowheads are added by script.js from the end of each path. -->
+            <svg class="notes" viewBox="0 0 600 560" aria-hidden="true">
+              <g class="note note--1">
+                <text class="scribble" x="14" y="48"><tspan x="14">farm-fresh parsley</tspan><tspan x="14" dy="27">&amp; tomatoes</tspan></text>
+                <path class="note__line" data-arrow d="M120 90 C 140 118, 160 146, 192 166" />
+              </g>
+              <g class="note note--2">
+                <text class="scribble" x="590" y="70" text-anchor="end"><tspan x="590">recipe card</tspan><tspan x="590" dy="27">+ QR video</tspan></text>
+                <path class="note__line" data-arrow d="M548 110 C 540 140, 510 160, 470 168" />
+              </g>
+              <g class="note note--3">
+                <text class="scribble" x="6" y="452"><tspan x="6">every spice</tspan><tspan x="6" dy="27">pre-measured</tspan></text>
+                <path class="note__line" data-arrow d="M146 472 C 214 470, 266 428, 298 364" />
+              </g>
+              <g class="note note--4">
+                <text class="scribble" x="596" y="512" text-anchor="end"><tspan x="596">just enough rice,</tspan><tspan x="596" dy="27">nothing wasted</tspan></text>
+                <path class="note__line" data-arrow d="M560 486 C 558 420, 516 362, 456 336" />
+              </g>
+            </svg>
+            <figcaption class="sr-only">Farm-fresh parsley and tomatoes, a recipe card with a QR video, pre-measured spices and just enough rice.</figcaption>
+          </figure>
 
-    <!-- PILLARS -->
-    <section class="pillars" aria-label="What's in every Zad box">
-      <ul class="pillars__list">
-        <li>
-          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 38 C 10 18, 22 8, 40 8 C 40 28, 30 38, 10 38 Z M10 38 L 28 20" /></svg>
-          <span><strong>Fresh ingredients</strong> from local farms and trusted Qatari suppliers</span>
-        </li>
-        <li>
-          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 30 C 6 30, 6 18, 14 18 C 14 10, 24 8, 26 14 C 30 8, 42 12, 38 20 C 44 22, 42 31, 34 30 L 34 40 L 14 40 Z M14 34 L 34 34" /></svg>
-          <span><strong>Authentic recipes</strong> developed with home cooks and local chefs</span>
-        </li>
-        <li>
-          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 16 L 24 9 L 42 16 L 42 36 L 24 42 L 6 36 Z M6 16 L 24 23 L 42 16 M24 23 L 24 42 M15 12.5 L 33 19.5" /></svg>
-          <span><strong>Pre-portioned kits</strong> sized for one, two or the whole family</span>
-        </li>
-        <li>
-          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 40 C 10 30, 4 22, 8 14 C 12 7, 21 8, 24 15 C 27 8, 36 7, 40 14 C 44 22, 38 30, 24 40 Z" /></svg>
-          <span><strong>Your personal touch</strong> on spice, servings and swaps</span>
-        </li>
-      </ul>
+          <div class="slide slide--list" role="group" aria-roledescription="slide" aria-label="2 of 3: In every box" style="--blob: var(--sage-soft)">
+            <div class="slide__inner">
+              <h2 class="slide__title">In every box</h2>
+              <ul class="feature-list">
+                <li class="is-sage"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 38 C 10 18, 22 8, 40 8 C 40 28, 30 38, 10 38 Z M10 38 L 28 20" /></svg><div><h3>Fresh ingredients</h3><p>From local farms and trusted Qatari suppliers</p></div></li>
+                <li><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 30 C 6 30, 6 18, 14 18 C 14 10, 24 8, 26 14 C 30 8, 42 12, 38 20 C 44 22, 42 31, 34 30 L 34 40 L 14 40 Z M14 34 L 34 34" /></svg><div><h3>Authentic recipes</h3><p>Developed with home cooks and local chefs</p></div></li>
+                <li class="is-sun"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 16 L 24 9 L 42 16 L 42 36 L 24 42 L 6 36 Z M6 16 L 24 23 L 42 16 M24 23 L 24 42 M15 12.5 L 33 19.5" /></svg><div><h3>Pre-portioned kits</h3><p>Sized for one, two or the whole family</p></div></li>
+                <li><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 40 C 10 30, 4 22, 8 14 C 12 7, 21 8, 24 15 C 27 8, 36 7, 40 14 C 44 22, 38 30, 24 40 Z" /></svg><div><h3>Your personal touch</h3><p>Choose the spice, servings and swaps</p></div></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="slide slide--list" role="group" aria-roledescription="slide" aria-label="3 of 3: Made for people who love home food" style="--blob: var(--kraft-soft)">
+            <div class="slide__inner">
+              <h2 class="slide__title">Made for people who love home food</h2>
+              <ul class="feature-list">
+                <li><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 24 L 24 8 L 42 24 M11 20 L 11 40 L 37 40 L 37 20 M20 40 L 20 29 L 28 29 L 28 40" /></svg><div><h3>Home cooks and families</h3><p>The dishes you grew up with, minus the trip to three shops</p></div></li>
+                <li class="is-sun"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6 A 18 18 0 1 1 23.9 6 Z M24 14 L 24 24 L 32 28" /></svg><div><h3>Busy professionals</h3><p>Real food after work, with no meal planning</p></div></li>
+                <li class="is-sage"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6 L 28 20 L 42 24 L 28 28 L 24 42 L 20 28 L 6 24 L 20 20 Z" /></svg><div><h3>Curious cooks</h3><p>Learn harees or saloona step by step, then make it yours</p></div></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel__controls">
+          <div class="carousel__dots">
+            <button type="button" class="carousel__dot is-active" aria-label="Show slide 1: Inside a Zad box" aria-current="true"><span></span></button>
+            <button type="button" class="carousel__dot" aria-label="Show slide 2: In every box"><span></span></button>
+            <button type="button" class="carousel__dot" aria-label="Show slide 3: Made for people who love home food"><span></span></button>
+          </div>
+          <button type="button" class="carousel__pause" aria-label="Pause slideshow">
+            <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="3" width="3" height="10" rx="1"/><rect x="9.5" y="3" width="3" height="10" rx="1"/></svg>
+            <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2 L 13 8 L 5 12.8 Z"/></svg>
+          </button>
+        </div>
+      </div>
     </section>
 
     <!-- HOW IT WORKS -->
@@ -307,30 +323,6 @@
       </div>
     </section>
 
-    <!-- AUDIENCE -->
-    <section class="section who">
-      <div class="section__head">
-        <h2>Made for people who love home food</h2>
-      </div>
-      <div class="who__grid">
-        <div class="who__item">
-          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 24 L 24 8 L 42 24 M11 20 L 11 40 L 37 40 L 37 20 M20 40 L 20 29 L 28 29 L 28 40" /></svg>
-          <h3>Home cooks and families</h3>
-          <p>Cook the dishes you grew up with on a weeknight, without the trip to three different shops.</p>
-        </div>
-        <div class="who__item">
-          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6 A 18 18 0 1 1 23.9 6 Z M24 14 L 24 24 L 32 28" /></svg>
-          <h3>Busy professionals</h3>
-          <p>Fresh, real food after work. No meal planning, no half-used bunches of herbs going limp in the fridge.</p>
-        </div>
-        <div class="who__item">
-          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 40 L 40 8 M30 8 L 40 8 L 40 18 M8 22 C 8 12, 14 8, 22 8 M26 40 C 34 40, 40 34, 40 26" /></svg>
-          <h3>Curious cooks</h3>
-          <p>New to harees or saloona? Learn traditional techniques step by step, then make them your own.</p>
-        </div>
-      </div>
-    </section>
-
     <!-- PLANS -->
     <section class="section plans" id="plans">
       <div class="section__head">
@@ -377,6 +369,9 @@
 
     <!-- APP -->
     <section class="section app">
+      <div class="section__head">
+        <h2>Order from the app, the website, or in stores</h2>
+      </div>
       <div class="app__inner">
         <div class="phone" aria-hidden="true">
           <div class="phone__screen">
@@ -390,8 +385,6 @@
           </div>
         </div>
         <div class="app__copy">
-          <h2>Order from the app, the website, or in stores</h2>
-          <p>The Zad app is the easiest way to plan your week, manage your subscription and collect loyalty rewards. Prefer something quick? Order a single box on our website, or pick one up in store.</p>
           <ul class="app__list">
             <li>Save favourite recipes and reorder in one tap</li>
             <li>Earn points on every box towards free desserts and pantry staples</li>
