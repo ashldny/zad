@@ -9,11 +9,12 @@ Live site: https://ashldny.github.io/zad/
 - Hero with the brand tagline (English and Arabic) and the annotated Zad box
 - How it works (4 steps), this week's menu with filters, and an interactive "Add your own touch" recipe customizer
 - Customer segments, subscription plans, app/ordering channels, FAQ and a founding-families waitlist
-- A working "box" (cart) drawer. Nothing is sent anywhere: checkout and the waitlist are front-end only
+- A working "box" (cart) drawer and a checkout screen with an order confirmation. Nothing is sent anywhere: checkout and the waitlist are front-end only
+- Add `?checkout` to the URL to open checkout straight away with a sample box (handy for screenshots)
 
 ## Analytics
 
-Every key action is pushed to `window.dataLayer` (page views, recipe views, add to box, checkout started, waitlist sign-ups), ready for GA4 or Plausible. Add `?analytics` to the URL to show a small funnel panel for demos:
+Every key action is pushed to `window.dataLayer` (page views, recipe views, add to box, checkout started, orders placed, waitlist sign-ups), ready for GA4 or Plausible. Add `?analytics` to the URL to show a small funnel panel for demos:
 
 https://ashldny.github.io/zad/?analytics
 

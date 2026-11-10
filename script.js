@@ -12,6 +12,7 @@
     ["recipe_view", "Recipe views"],
     ["add_to_box", "Added to box"],
     ["checkout_start", "Checkout started"],
+    ["purchase", "Orders placed"],
     ["waitlist_signup", "Waitlist sign-ups"],
   ];
   let counts = {};
@@ -138,7 +139,11 @@
     return s + "</svg>";
   }
 
-  const chili = (n) => n === 0 ? "Mild" : `<span class="chili" aria-label="Spice ${n} of 3">${"●".repeat(n)}<i>${"●".repeat(3 - n)}</i></span>`;
+  // Spice level: 0 to 3 chillies, always with a word so the icons never need explaining
+  const SPICE = ["Not spicy", "Mild", "Medium", "Hot"];
+  const chiliIcon = (hot) => `<svg viewBox="0 0 16 16" class="${hot ? "is-hot" : ""}"><path d="M1.6 13.6 C 5.8 15.8, 12.6 12.2, 13.2 5.6 C 13.3 4.4, 12 3.7, 11 4.3 L 9.2 5.3 C 8.6 9.2, 6 11.4, 2.4 12 C 1.4 12.2, 1 13.2, 1.6 13.6 Z"/><path d="M11.4 4.6 C 11.6 2.8, 12.8 1.6, 14.6 1.6"/></svg>`;
+  const chili = (n) => `<span class="spice" aria-label="Spice level: ${SPICE[n]}"><span class="spice__icons" aria-hidden="true">${[0, 1, 2].map((i) => chiliIcon(i < n)).join("")}</span>${SPICE[n]}</span>`;
+  const clock = `<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.5 V 8 L 10.5 9.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
 
   const list = document.getElementById("recipes");
   list.innerHTML = RECIPES.map((r, i) => `
@@ -150,7 +155,7 @@
       <div class="recipe__body">
         <div class="recipe__names"><h3>${r.name}</h3><span class="recipe__ar" lang="ar" dir="rtl">${r.ar}</span></div>
         <p class="recipe__desc">${r.desc}</p>
-        <div class="recipe__meta"><span>${r.time} min</span><span>${chili(r.spice)}</span></div>
+        <div class="recipe__meta"><span>${clock}${r.time} min</span>${chili(r.spice)}</div>
         <div class="recipe__foot">
           <span class="recipe__price">${qar(r.price)} <small>for 2</small></span>
           <button type="button" class="addbtn" data-add="${r.id}" aria-label="Add ${r.name} to box">Add to box</button>
@@ -242,14 +247,77 @@
   drawer.addEventListener("click", (e) => { if (e.target.closest("[data-close]")) closeDrawer(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !drawer.hidden) closeDrawer(); });
 
-  document.getElementById("checkoutBtn").addEventListener("click", () => {
+  /* ---------- checkout (visual prototype) ---------- */
+  const co = document.getElementById("checkout");
+  const coForm = document.getElementById("checkoutForm");
+  const coMain = document.getElementById("coMain");
+  const coDone = document.getElementById("coDone");
+  const coErr = document.getElementById("coError");
+  const subtotal = () => box.reduce((a, b) => a + b.price, 0);
+
+  // next five delivery days, starting two days from today
+  const days = document.getElementById("coDays");
+  const fmt = (d, o) => d.toLocaleDateString("en-GB", o);
+  days.innerHTML = Array.from({ length: 5 }, (_, i) => {
+    const d = new Date(); d.setDate(d.getDate() + 2 + i);
+    return `<label><input type="radio" name="day" value="${fmt(d, { weekday: "long", day: "numeric", month: "long" })}" ${i === 0 ? "checked" : ""}>
+      <span>${fmt(d, { weekday: "short" })}<b>${d.getDate()}</b>${fmt(d, { month: "short" })}</span></label>`;
+  }).join("");
+
+  function renderSummary() {
+    const sub = subtotal(), disc = Math.round(sub * 0.5);
+    document.getElementById("coItems").innerHTML = box.map((b) =>
+      `<li><span>${b.name}<small>${b.detail}</small></span><b>${qar(b.price)}</b></li>`).join("");
+    document.getElementById("coSub").textContent = qar(sub);
+    document.getElementById("coDisc").textContent = `− ${qar(disc)}`;
+    document.getElementById("coTotal").textContent = qar(sub - disc);
+    document.getElementById("coPlace").textContent = `Place order · ${qar(sub - disc)}`;
+  }
+  function openCheckout() {
     if (!box.length) { toast("Add a recipe first, then check out"); return; }
-    track("checkout_start", { items: box.length, value: box.reduce((a, b) => a + b.price, 0) });
-    closeDrawer();
-    toast("Checkout opens at launch. Join the list to keep your spot.");
-    document.getElementById("join").scrollIntoView({ behavior: "smooth" });
-    setTimeout(() => document.getElementById("email").focus({ preventScroll: true }), 600);
+    if (!drawer.hidden) { drawer.hidden = true; }
+    renderSummary();
+    coMain.hidden = false; coDone.hidden = true; coErr.textContent = "";
+    co.hidden = false; co.scrollTop = 0;
+    document.body.style.overflow = "hidden";
+    co.querySelector(".checkout__back").focus();
+    track("checkout_start", { items: box.length, value: subtotal() });
+  }
+  function closeCheckout() {
+    co.hidden = true; document.body.style.overflow = ""; boxBtn.focus();
+  }
+  document.getElementById("checkoutBtn").addEventListener("click", openCheckout);
+  co.addEventListener("click", (e) => { if (e.target.closest("[data-co-close]")) closeCheckout(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !co.hidden) closeCheckout(); });
+
+  coForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const missing = [...coForm.querySelectorAll("[required]")].filter((f) => !f.value.trim());
+    coForm.querySelectorAll("[required]").forEach((f) => f.toggleAttribute("aria-invalid", missing.includes(f)));
+    coForm.querySelectorAll("[aria-invalid]").forEach((f) => f.setAttribute("aria-invalid", "true"));
+    if (missing.length) {
+      coErr.textContent = "Add your name, mobile number and address so the driver can find you.";
+      missing[0].focus();
+      return;
+    }
+    const day = coForm.querySelector('input[name="day"]:checked').value;
+    const slot = coForm.querySelector('input[name="slot"]:checked').value;
+    document.getElementById("coWhen").textContent = `${day}, ${slot}`;
+    document.getElementById("coRef").textContent = `ZAD-${Math.floor(1000 + Math.random() * 9000)}`;
+    track("purchase", { value: subtotal() - Math.round(subtotal() * 0.5), items: box.length });
+    box.length = 0; renderBox(); coForm.reset();
+    coMain.hidden = true; coDone.hidden = false; co.scrollTop = 0;
+    document.getElementById("coDoneTitle").focus();
   });
+
+  // ?checkout opens the screen straight away with a sample box, handy for screenshots
+  if (new URLSearchParams(location.search).has("checkout")) {
+    const m = RECIPES[0], l = RECIPES[5];
+    box.push({ id: m.id, name: m.name, detail: "2 servings", price: m.price, key: 1 },
+             { id: l.id, name: l.name, detail: "Add-on", price: l.price, key: 2 });
+    renderBox();
+    openCheckout();
+  }
 
   /* ---------- customizer ---------- */
   const PROTEIN = {
@@ -323,6 +391,18 @@
     email.value = "";
     msg.textContent = "You're on the list. We'll email you before Zad launches in your area.";
     track("waitlist_signup");
+  });
+
+  /* ---------- hero arrowheads, computed from the end of each sketched line ---------- */
+  document.querySelectorAll(".notes [data-arrow]").forEach((path) => {
+    const L = path.getTotalLength();
+    const tip = path.getPointAtLength(L), back = path.getPointAtLength(L - 10);
+    const ang = Math.atan2(tip.y - back.y, tip.x - back.x);
+    const wing = (a) => `${tip.x - 14 * Math.cos(ang + a)},${tip.y - 14 * Math.sin(ang + a)}`;
+    const head = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    head.setAttribute("class", "note__line");
+    head.setAttribute("d", `M${wing(0.5)} L${tip.x},${tip.y} L${wing(-0.5)}`);
+    path.after(head);
   });
 
   /* ---------- nav ---------- */

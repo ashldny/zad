@@ -30,7 +30,7 @@
     <div class="nav__inner">
       <a class="brand" href="#top" aria-label="Zad home">
         <img class="brand__box" src="assets/zad-box.png" alt="" width="54" height="38">
-        <img class="brand__word" src="assets/zad-wordmark.png" alt="Zad | زاد" width="120" height="28">
+        <img class="brand__word" src="assets/zad-wordmark.png" alt="Zad | زاد" width="310" height="119">
       </a>
       <nav class="nav__links" aria-label="Main">
         <a href="#how">How it works</a>
@@ -56,7 +56,7 @@
       <div class="hero__copy">
         <h1 class="hero__title">Fresh ingredients.<br>Your touch.<br>Your meal.</h1>
         <p class="hero__ar" lang="ar" dir="rtl">مكونات طازجة. لمستك. وجبتك.</p>
-        <p class="hero__lede">Zad brings everything you need for a Qatari or Arab home-cooked dish in one box: fresh produce, pre-measured spices and a recipe you can actually follow. You do the cooking. We do the shopping.</p>
+        <p class="hero__lede">Everything for a real Qatari home-cooked meal, packed in one box. You cook. We shop.</p>
         <div class="hero__ctas">
           <a class="btn btn--primary" href="#menu" data-track="cta_click" data-label="hero_primary">Choose this week's recipes</a>
           <a class="btn btn--ghost" href="#how">See how it works</a>
@@ -67,28 +67,27 @@
       <figure class="hero__art" aria-label="An open Zad box with parsley, tomatoes, lemon, onion, rice, spice pots and a recipe card">
         <div class="hero__blob" aria-hidden="true"></div>
         <img class="hero__kit" src="assets/zad-kit.png" alt="" width="450" height="440">
+        <!-- Notes and arrows share one coordinate system so they stay attached at every size.
+             Arrowheads are added by script.js from the end of each path. -->
         <svg class="notes" viewBox="0 0 600 560" aria-hidden="true">
           <g class="note note--1">
-            <path class="note__line" d="M118 92 C 150 70, 205 74, 236 118" />
-            <path class="note__line" d="M226 104 L 236 118 L 220 120" />
+            <text class="scribble" x="14" y="48"><tspan x="14">farm-fresh parsley</tspan><tspan x="14" dy="27">&amp; tomatoes</tspan></text>
+            <path class="note__line" data-arrow d="M120 90 C 140 118, 160 146, 192 166" />
           </g>
           <g class="note note--2">
-            <path class="note__line" d="M520 150 C 520 190, 500 210, 462 214" />
-            <path class="note__line" d="M476 204 L 462 214 L 476 224" />
+            <text class="scribble" x="590" y="70" text-anchor="end"><tspan x="590">recipe card</tspan><tspan x="590" dy="27">+ QR video</tspan></text>
+            <path class="note__line" data-arrow d="M548 110 C 540 140, 510 160, 470 168" />
           </g>
           <g class="note note--3">
-            <path class="note__line" d="M60 438 C 90 470, 150 470, 190 420" />
-            <path class="note__line" d="M176 424 L 190 420 L 192 434" />
+            <text class="scribble" x="6" y="452"><tspan x="6">every spice</tspan><tspan x="6" dy="27">pre-measured</tspan></text>
+            <path class="note__line" data-arrow d="M146 472 C 214 470, 266 428, 298 364" />
           </g>
           <g class="note note--4">
-            <path class="note__line" d="M540 470 C 520 430, 480 410, 430 400" />
-            <path class="note__line" d="M442 392 L 430 400 L 444 408" />
+            <text class="scribble" x="596" y="512" text-anchor="end"><tspan x="596">just enough rice,</tspan><tspan x="596" dy="27">nothing wasted</tspan></text>
+            <path class="note__line" data-arrow d="M560 486 C 558 420, 516 362, 456 336" />
           </g>
         </svg>
-        <figcaption class="scribble scribble--1">farm-fresh parsley<br>&amp; tomatoes</figcaption>
-        <span class="scribble scribble--2" aria-hidden="true">recipe card<br>+ QR video</span>
-        <span class="scribble scribble--3" aria-hidden="true">every spice<br>pre-measured</span>
-        <span class="scribble scribble--4" aria-hidden="true">just enough rice,<br>nothing wasted</span>
+        <figcaption class="sr-only">Farm-fresh parsley and tomatoes, a recipe card with a QR video, pre-measured spices and just enough rice.</figcaption>
       </figure>
     </section>
 
@@ -122,22 +121,106 @@
       </div>
       <ol class="steps">
         <li class="step">
-          <span class="step__num" aria-hidden="true">1</span>
+          <div class="step__art" style="--tile: var(--butter)">
+            <span class="step__num" aria-hidden="true">1</span>
+            <svg viewBox="0 0 240 170" aria-hidden="true">
+              <circle cx="46" cy="64" r="24" fill="#FFFDF8" stroke="#EAD7BC" stroke-width="2"/>
+              <circle cx="46" cy="64" r="16" fill="#E7B45A"/>
+              <ellipse cx="41" cy="60" rx="5" ry="3.5" fill="#B8682E"/><ellipse cx="51" cy="68" rx="5" ry="3.5" fill="#B8682E"/><ellipse cx="48" cy="57" rx="3" ry="1.6" fill="#7E9A4B"/>
+              <circle cx="196" cy="116" r="21" fill="#FFFDF8" stroke="#EAD7BC" stroke-width="2"/>
+              <circle cx="196" cy="116" r="14" fill="#C9894A"/>
+              <circle cx="192" cy="112" r="3.5" fill="#7A3E1E"/><circle cx="200" cy="120" r="3.5" fill="#7A3E1E"/><circle cx="199" cy="110" r="2.6" fill="#EC7A2C"/>
+              <path d="M196 52 C 186 44, 182 34, 190 30 C 194 28, 196 32, 196 34 C 196 32, 198 28, 202 30 C 210 34, 206 44, 196 52 Z" fill="#EC7A2C"/>
+              <rect x="78" y="12" width="84" height="150" rx="16" fill="#4E2611"/>
+              <rect x="84" y="18" width="72" height="138" rx="11" fill="#FFFDF8"/>
+              <rect x="106" y="23" width="28" height="5" rx="2.5" fill="#4E2611"/>
+              <rect x="90" y="36" width="60" height="26" rx="7" fill="#fff" stroke="#EAD7BC" stroke-width="1.5"/>
+              <circle cx="101" cy="49" r="7" fill="#E7B45A"/><rect x="112" y="43" width="28" height="4" rx="2" fill="#4E2611"/><rect x="112" y="51" width="18" height="3" rx="1.5" fill="#D2B48F"/>
+              <rect x="90" y="68" width="60" height="26" rx="7" fill="#fff" stroke="#BF5413" stroke-width="2"/>
+              <circle cx="101" cy="81" r="7" fill="#DE7535"/><rect x="112" y="75" width="24" height="4" rx="2" fill="#4E2611"/><rect x="112" y="83" width="16" height="3" rx="1.5" fill="#D2B48F"/>
+              <circle cx="146" cy="70" r="8" fill="#7E9A4B"/><path d="M142.5 70 L 145 72.5 L 149.5 67.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="90" y="100" width="60" height="26" rx="7" fill="#fff" stroke="#EAD7BC" stroke-width="1.5"/>
+              <circle cx="101" cy="113" r="7" fill="#EAD5AA"/><rect x="112" y="107" width="22" height="4" rx="2" fill="#4E2611"/><rect x="112" y="115" width="16" height="3" rx="1.5" fill="#D2B48F"/>
+              <rect x="90" y="136" width="60" height="12" rx="6" fill="#BF5413"/>
+            </svg>
+          </div>
           <h3>Pick your recipes</h3>
           <p>Browse the weekly menu in the Zad app or on the website and choose what you feel like cooking.</p>
         </li>
         <li class="step">
-          <span class="step__num" aria-hidden="true">2</span>
+          <div class="step__art" style="--tile: var(--sage-soft)">
+            <span class="step__num" aria-hidden="true">2</span>
+            <svg viewBox="0 0 240 170" aria-hidden="true">
+              <g transform="rotate(-4 90 92)">
+                <rect x="30" y="26" width="118" height="128" rx="8" fill="#FFFDF8" stroke="#EAD7BC" stroke-width="2"/>
+                <rect x="44" y="40" width="58" height="7" rx="3.5" fill="#4E2611"/>
+                <rect x="44" y="52" width="36" height="4" rx="2" fill="#D2B48F"/>
+                <rect x="44" y="68" width="90" height="18" rx="9" fill="#F4E2C6"/>
+                <rect x="46" y="70" width="30" height="14" rx="7" fill="#BF5413"/>
+                <rect x="44" y="94" width="90" height="18" rx="9" fill="#F4E2C6"/>
+                <rect x="75" y="96" width="30" height="14" rx="7" fill="#BF5413"/>
+                <circle cx="56" cy="132" r="8" fill="none" stroke="#7A4A2E" stroke-width="2"/>
+                <circle cx="80" cy="132" r="8" fill="#7E9A4B"/>
+                <circle cx="104" cy="132" r="8" fill="none" stroke="#7A4A2E" stroke-width="2"/>
+              </g>
+              <rect x="160" y="62" width="32" height="54" rx="7" fill="#FFFDF8" stroke="#4E2611" stroke-width="2.5"/>
+              <rect x="163" y="84" width="26" height="29" rx="4" fill="#D9622B"/>
+              <rect x="158" y="52" width="36" height="12" rx="4" fill="#7A4A2E"/>
+              <rect x="198" y="80" width="30" height="44" rx="7" fill="#FFFDF8" stroke="#4E2611" stroke-width="2.5"/>
+              <rect x="201" y="96" width="24" height="25" rx="4" fill="#E9B04A"/>
+              <rect x="196" y="70" width="34" height="12" rx="4" fill="#7E9A4B"/>
+              <path d="M160 150 C 176 156, 200 150, 212 134 L 206 130 C 196 142, 180 146, 160 150 Z" fill="#E2502A"/>
+              <path d="M209 132 C 212 126, 218 124, 222 125" fill="none" stroke="#7E9A4B" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
           <h3>Make it yours</h3>
           <p>Set servings, swap the protein and choose how much spice. The ingredients adjust to match.</p>
         </li>
         <li class="step">
-          <span class="step__num" aria-hidden="true">3</span>
+          <div class="step__art" style="--tile: var(--kraft-soft)">
+            <span class="step__num" aria-hidden="true">3</span>
+            <svg viewBox="0 0 240 170" aria-hidden="true">
+              <path d="M8 84 H 28 M2 100 H 24 M10 116 H 28" stroke="#B98A52" stroke-width="3" stroke-linecap="round"/>
+              <path d="M20 150 H 70 M92 150 H 142 M164 150 H 214" stroke="#D9BC93" stroke-width="4" stroke-linecap="round"/>
+              <rect x="36" y="58" width="112" height="76" rx="12" fill="#EC7A2C"/>
+              <path d="M148 80 H 176 C 182 80, 186 83, 189 87 L 206 110 C 208 113, 209 116, 209 119 V 128 C 209 131, 207 134, 204 134 H 148 Z" fill="#EC7A2C"/>
+              <path d="M156 88 H 174 C 177 88, 179 89, 181 91 L 194 108 H 156 Z" fill="#FFFDF8"/>
+              <rect x="200" y="118" width="10" height="6" rx="2" fill="#FFE9B8"/>
+              <g transform="rotate(-6 92 98)">
+                <rect x="66" y="78" width="54" height="40" rx="4" fill="#E2BD8A" stroke="#B98A52" stroke-width="2"/>
+                <path d="M66 78 L 58 70 M120 78 L 128 70" stroke="#B98A52" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M84 102 C 80 102, 80 95, 84 95 C 84 90, 91 89, 92 93 C 94 89, 101 90, 100 95 C 104 95, 104 102, 100 102 V 107 H 84 Z" fill="none" stroke="#FFFDF8" stroke-width="2.5" stroke-linejoin="round"/>
+              </g>
+              <path d="M54 66 V 76 M49 71 H 59 M50.5 67.5 L 57.5 74.5 M57.5 67.5 L 50.5 74.5" stroke="#FFFDF8" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="70" cy="136" r="15" fill="#4E2611"/><circle cx="70" cy="136" r="6" fill="#F4E2C6"/>
+              <circle cx="180" cy="136" r="15" fill="#4E2611"/><circle cx="180" cy="136" r="6" fill="#F4E2C6"/>
+            </svg>
+          </div>
           <h3>We pack and deliver</h3>
           <p>Everything is weighed, packed in a chilled box and brought to your door, with a printed recipe card.</p>
         </li>
         <li class="step">
-          <span class="step__num" aria-hidden="true">4</span>
+          <div class="step__art" style="--tile: #FCDCC8">
+            <span class="step__num" aria-hidden="true">4</span>
+            <svg viewBox="0 0 240 170" aria-hidden="true">
+              <path d="M92 62 C 84 52, 100 46, 92 34 M118 58 C 110 48, 126 42, 118 30 M144 62 C 136 52, 152 46, 144 34" fill="none" stroke="#BF5413" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+              <rect x="56" y="146" width="128" height="7" rx="3.5" fill="#7A4A2E"/>
+              <ellipse cx="120" cy="78" rx="64" ry="9" fill="#E7B45A"/>
+              <circle cx="104" cy="76" r="4" fill="#B8682E"/><circle cx="130" cy="79" r="4" fill="#B8682E"/><ellipse cx="117" cy="75" rx="4" ry="2" fill="#7E9A4B"/>
+              <path d="M60 80 H 180 V 120 C 180 132, 172 140, 160 140 H 80 C 68 140, 60 132, 60 120 Z" fill="#BF5413"/>
+              <rect x="52" y="72" width="136" height="12" rx="6" fill="#9E430D"/>
+              <rect x="38" y="90" width="20" height="9" rx="4.5" fill="#9E430D"/>
+              <rect x="182" y="90" width="20" height="9" rx="4.5" fill="#9E430D"/>
+              <path d="M74 98 H 120" stroke="#E07A3A" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+              <path d="M150 74 L 170 22" stroke="#B98A52" stroke-width="6" stroke-linecap="round"/>
+              <g transform="rotate(8 206 46)">
+                <rect x="184" y="18" width="44" height="56" rx="6" fill="#FFFDF8" stroke="#EAD7BC" stroke-width="2"/>
+                <rect x="192" y="26" width="10" height="10" fill="#4E2611"/><rect x="210" y="26" width="10" height="10" fill="#4E2611"/><rect x="192" y="44" width="10" height="10" fill="#4E2611"/>
+                <rect x="210" y="44" width="4" height="4" fill="#4E2611"/><rect x="216" y="50" width="4" height="4" fill="#4E2611"/><rect x="204" y="38" width="4" height="4" fill="#4E2611"/>
+                <rect x="192" y="60" width="28" height="4" rx="2" fill="#D2B48F"/>
+              </g>
+            </svg>
+          </div>
           <h3>Cook and enjoy</h3>
           <p>Follow the card or scan the QR code for a short video. Most dishes are ready in under an hour.</p>
         </li>
@@ -307,8 +390,8 @@
           </div>
         </div>
         <div class="app__copy">
-          <h2>Order from the app, the website or Snoonu</h2>
-          <p>The Zad app is the easiest way to plan your week, manage your subscription and collect loyalty rewards. Prefer something quick? You can also order single boxes on our website or through Snoonu.</p>
+          <h2>Order from the app, the website, or in stores</h2>
+          <p>The Zad app is the easiest way to plan your week, manage your subscription and collect loyalty rewards. Prefer something quick? Order a single box on our website, or pick one up in store.</p>
           <ul class="app__list">
             <li>Save favourite recipes and reorder in one tap</li>
             <li>Earn points on every box towards free desserts and pantry staples</li>
@@ -368,7 +451,7 @@
   <footer class="footer">
     <div class="footer__inner">
       <div class="footer__brand">
-        <img src="assets/zad-wordmark.png" alt="Zad | زاد" width="120" height="28">
+        <img src="assets/zad-wordmark.png" alt="Zad | زاد" width="310" height="119">
         <p><span lang="ar" dir="rtl">زاد</span> means provisions: food you carry for the journey.</p>
       </div>
       <nav class="footer__links" aria-label="Footer">
@@ -395,6 +478,92 @@
         <div class="drawer__total"><span>Total</span><strong id="drawerTotal">QAR 0</strong></div>
         <button class="btn btn--primary btn--block" type="button" id="checkoutBtn">Go to checkout</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Checkout (prototype: nothing is submitted or charged) -->
+  <div class="checkout" id="checkout" role="dialog" aria-modal="true" aria-labelledby="coTitle" hidden>
+    <div class="checkout__top">
+      <img src="assets/zad-wordmark.png" alt="Zad | زاد" width="310" height="119">
+      <button type="button" class="checkout__back" data-co-close>Back to the site</button>
+    </div>
+
+    <div class="checkout__body" id="coMain">
+      <h2 class="checkout__title" id="coTitle">Checkout</h2>
+      <form class="checkout__form" id="checkoutForm" novalidate>
+        <p class="checkout__error" id="coError" role="alert"></p>
+
+        <section class="co-step">
+          <h3><span class="co-step__n">1</span>Delivery address</h3>
+          <div class="co-grid">
+            <label class="field"><span>Full name</span><input name="name" autocomplete="name" placeholder="Noor Al-Kuwari" required></label>
+            <label class="field"><span>Mobile number</span><input name="phone" type="tel" autocomplete="tel" placeholder="+974 5555 1234" required></label>
+            <label class="field"><span>Area</span>
+              <select name="area" required>
+                <option value="">Choose your area</option>
+                <option>Doha</option><option>Al Wakrah</option><option>Al Rayyan</option><option>Lusail</option><option>The Pearl</option>
+              </select>
+            </label>
+            <label class="field"><span>Street, building and unit</span><input name="street" autocomplete="street-address" placeholder="Street 820, Building 12, Apt 4" required></label>
+            <label class="field field--wide"><span>Note for the driver <em>(optional)</em></span><input name="note" placeholder="Ring the bell, the box can wait at the door"></label>
+          </div>
+        </section>
+
+        <section class="co-step">
+          <h3><span class="co-step__n">2</span>Delivery day and time</h3>
+          <div class="co-days" id="coDays" role="radiogroup" aria-label="Delivery day"></div>
+          <div class="seg co-slots" role="radiogroup" aria-label="Delivery time">
+            <label><input type="radio" name="slot" value="9 am to 12 pm"><span>Morning, 9–12</span></label>
+            <label><input type="radio" name="slot" value="1 pm to 5 pm"><span>Afternoon, 1–5</span></label>
+            <label><input type="radio" name="slot" value="5 pm to 9 pm" checked><span>Evening, 5–9</span></label>
+          </div>
+        </section>
+
+        <section class="co-step">
+          <h3><span class="co-step__n">3</span>Payment</h3>
+          <div class="co-pay">
+            <label><input type="radio" name="pay" value="card" checked><span>
+              <svg viewBox="0 0 32 24" aria-hidden="true"><rect x="1.5" y="3" width="29" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1.5 9 H 30.5" stroke="currentColor" stroke-width="3"/></svg>
+              Debit or credit card</span></label>
+            <label><input type="radio" name="pay" value="wallet"><span>
+              <svg viewBox="0 0 32 24" aria-hidden="true"><rect x="7" y="1.5" width="18" height="21" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 18 H 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Digital wallet</span></label>
+            <label><input type="radio" name="pay" value="cash"><span>
+              <svg viewBox="0 0 32 24" aria-hidden="true"><rect x="1.5" y="4" width="29" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+              Cash on delivery</span></label>
+          </div>
+          <p class="co-note">Card details are entered on the payment provider's page after you place the order.</p>
+        </section>
+
+        <button class="btn btn--primary btn--block co-place" type="submit" id="coPlace">Place order</button>
+      </form>
+
+      <aside class="checkout__summary" aria-label="Order summary">
+        <h3>Your box</h3>
+        <ul class="co-items" id="coItems"></ul>
+        <dl class="co-totals">
+          <dt>Subtotal</dt><dd id="coSub">QAR 0</dd>
+          <dt>Delivery</dt><dd>Free</dd>
+          <dt>First box, 50% off</dt><dd id="coDisc">− QAR 0</dd>
+          <dt class="co-total">Total</dt><dd class="co-total" id="coTotal">QAR 0</dd>
+        </dl>
+        <img class="co-kit" src="assets/zad-kit.png" alt="" width="450" height="440">
+      </aside>
+    </div>
+
+    <div class="checkout__done" id="coDone" hidden>
+      <img src="assets/zad-logo.png" alt="" width="180" height="180">
+      <h2 tabindex="-1" id="coDoneTitle">Order placed</h2>
+      <p class="co-done__lede">Your box arrives <strong id="coWhen">Sunday</strong>. We'll text you when the driver is on the way.</p>
+      <p class="co-done__ref">Order <strong id="coRef">ZAD-0000</strong></p>
+      <ol class="co-track" aria-label="Order progress">
+        <li class="is-done"><span></span>Order placed</li>
+        <li><span></span>Packing your box</li>
+        <li><span></span>Out for delivery</li>
+        <li><span></span>Delivered</li>
+      </ol>
+      <button type="button" class="btn btn--primary" data-co-close>Back to the site</button>
+      <p class="co-note">This is a prototype. No order was placed and no payment was taken.</p>
     </div>
   </div>
 
