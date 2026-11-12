@@ -424,17 +424,36 @@
     <!-- WAITLIST -->
     <section class="waitlist" id="join">
       <div class="waitlist__inner">
-        <img class="waitlist__logo" src="assets/zad-logo.png" alt="" width="180" height="180">
         <div class="waitlist__copy">
           <h2>Be one of our 500 founding families</h2>
           <p>We're launching with a small group of households in Doha. Join the list and get your first box at half price.</p>
           <form class="waitlist__form" id="waitlistForm" novalidate>
             <label class="sr-only" for="email">Email address</label>
             <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+            <label class="sr-only" for="wlArea">Your area</label>
+            <select id="wlArea" name="area" required>
+              <option value="">Your area</option>
+              <option>Doha</option><option>Al Rayyan</option><option>Al Wakrah</option><option>Lusail</option><option>The Pearl</option><option>Other area</option>
+            </select>
             <button class="btn btn--primary" type="submit">Join the list</button>
           </form>
           <p class="waitlist__msg" id="waitlistMsg" role="status"></p>
         </div>
+
+        <aside class="interest" aria-labelledby="interestTitle">
+          <h3 id="interestTitle">Who's already waiting</h3>
+          <p class="interest__big"><strong id="wlTotal">0</strong> <span>households on the list</span></p>
+          <div class="interest__progress" id="wlProgress" role="progressbar" aria-label="Founding spots filled" aria-valuemin="0" aria-valuemax="500" aria-valuenow="0"><span></span></div>
+          <p class="interest__spots"><b id="wlLeft">500</b> of 500 founding spots left</p>
+
+          <h4>Sign-ups by area</h4>
+          <ul class="interest__areas" id="wlAreas"></ul>
+
+          <h4>Latest sign-ups</h4>
+          <ul class="interest__feed" id="wlFeed"></ul>
+
+          <p class="interest__note">Sample figures for the class prototype. Your own sign-up is added live.</p>
+        </aside>
       </div>
     </section>
   </main>

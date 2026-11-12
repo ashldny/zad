@@ -433,23 +433,86 @@
   });
   renderCard();
 
-  /* ---------- waitlist ---------- */
+  /* ---------- waitlist + "who's already waiting" ---------- */
+  // Sample figures for the class prototype (the page says so). A visitor's own
+  // sign-up is added on top and remembered in this browser only.
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const WL_GOAL = 500;
+  const WL_SAMPLE = {
+    areas: { Doha: 58, "Al Rayyan": 31, "Al Wakrah": 22, Lusail: 17, "The Pearl": 9, "Other area": 0 },
+    feed: [ { area: "Lusail", mins: 12 }, { area: "Doha", mins: 47 }, { area: "Al Wakrah", mins: 130 }, { area: "Al Rayyan", mins: 205 } ],
+  };
+  const WL_KEY = "zad-waitlist-me";
+  let me = null;
+  try { me = JSON.parse(localStorage.getItem(WL_KEY)); } catch (e) { me = null; }
+
   const form = document.getElementById("waitlistForm");
   const email = document.getElementById("email");
+  const areaSel = document.getElementById("wlArea");
   const msg = document.getElementById("waitlistMsg");
+  const wlTotal = document.getElementById("wlTotal");
+  let shownTotal = 0;
+
+  const ago = (mins) => mins < 1 ? "just now" : mins < 60 ? `${Math.round(mins)} min ago` : `${Math.round(mins / 60)} h ago`;
+
+  function countUp(to) {
+    const from = shownTotal, start = performance.now(), dur = reduceMotion ? 0 : 700;
+    shownTotal = to;
+    const step = (now) => {
+      const t = dur ? Math.min((now - start) / dur, 1) : 1;
+      wlTotal.textContent = Math.round(from + (to - from) * (1 - Math.pow(1 - t, 3)));
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  function renderInterest(fresh) {
+    const areas = { ...WL_SAMPLE.areas };
+    if (me) areas[me.area] = (areas[me.area] || 0) + 1;
+    const total = Object.values(areas).reduce((a, b) => a + b, 0);
+    const max = Math.max(...Object.values(areas));
+    countUp(total);
+
+    const prog = document.getElementById("wlProgress");
+    prog.setAttribute("aria-valuenow", total);
+    prog.firstElementChild.style.width = `${Math.min(total / WL_GOAL, 1) * 100}%`;
+    document.getElementById("wlLeft").textContent = Math.max(WL_GOAL - total, 0);
+
+    document.getElementById("wlAreas").innerHTML = Object.entries(areas)
+      .filter(([, n]) => n > 0)
+      .sort((a, b) => b[1] - a[1])
+      .map(([area, n]) => `<li title="${area}: ${n} households (${Math.round((n / total) * 100)}%)">
+        <span>${area}${me && me.area === area ? "<em>you</em>" : ""}</span>
+        <span class="bar" aria-hidden="true"><i style="width:${(n / max) * 100}%"></i></span>
+        <b>${n}</b></li>`).join("");
+
+    const feed = WL_SAMPLE.feed.map((f) => ({ ...f, text: `A household in ${f.area} joined` }));
+    if (me) feed.unshift({ area: me.area, mins: (Date.now() - me.ts) / 60000, text: `You joined from ${me.area}`, you: true });
+    document.getElementById("wlFeed").innerHTML = feed.slice(0, 4).map((f, i) =>
+      `<li class="${f.you ? "is-you" : ""}${fresh && i === 0 ? " is-new" : ""}">${f.text}<time>${ago(f.mins)}</time></li>`).join("");
+  }
+  renderInterest(false);
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim());
-    if (!ok) {
-      email.setAttribute("aria-invalid", "true");
-      msg.textContent = "Enter an email address like name@example.com.";
-      email.focus();
+    const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim());
+    const okArea = !!areaSel.value;
+    email.toggleAttribute("aria-invalid", !okEmail); if (!okEmail) email.setAttribute("aria-invalid", "true");
+    areaSel.toggleAttribute("aria-invalid", !okArea); if (!okArea) areaSel.setAttribute("aria-invalid", "true");
+    if (!okEmail || !okArea) {
+      msg.textContent = !okEmail ? "Enter an email address like name@example.com." : "Choose your area so we know where to deliver first.";
+      (!okEmail ? email : areaSel).focus();
       return;
     }
-    email.removeAttribute("aria-invalid");
-    email.value = "";
-    msg.textContent = "You're on the list. We'll email you before Zad launches in your area.";
-    track("waitlist_signup");
+    const already = !!me;
+    me = { area: areaSel.value, ts: Date.now() };
+    try { localStorage.setItem(WL_KEY, JSON.stringify(me)); } catch (err) { /* storage blocked: still show it this visit */ }
+    email.value = ""; areaSel.value = "";
+    msg.textContent = already
+      ? `Updated. You're on the list for ${me.area}.`
+      : `You're on the list. We'll email you before Zad launches in ${me.area}.`;
+    renderInterest(true);
+    if (!already) track("waitlist_signup", { area: me.area });
   });
 
   /* ---------- hero arrowheads, computed from the end of each sketched line ---------- */
