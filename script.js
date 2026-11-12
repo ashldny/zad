@@ -466,32 +466,49 @@
     requestAnimationFrame(step);
   }
 
-  function renderInterest(fresh) {
+  // one line at a time, rotating, so the card stays calm
+  const ticker = document.getElementById("wlTicker");
+  let tickerLines = [], tickerIdx = 0, tickerTimer = null;
+  function showTicker(i) {
+    const f = tickerLines[i];
+    ticker.innerHTML = `<span>${f.text}</span><time>${ago(f.mins)}</time>`;
+  }
+  function startTicker() {
+    clearInterval(tickerTimer);
+    tickerIdx = 0; showTicker(0);
+    if (reduceMotion || tickerLines.length < 2) return;
+    tickerTimer = setInterval(() => {
+      ticker.classList.add("is-fading");
+      setTimeout(() => {
+        tickerIdx = (tickerIdx + 1) % tickerLines.length;
+        showTicker(tickerIdx);
+        ticker.classList.remove("is-fading");
+      }, 300);
+    }, 3800);
+  }
+
+  function renderInterest() {
     const areas = { ...WL_SAMPLE.areas };
     if (me) areas[me.area] = (areas[me.area] || 0) + 1;
     const total = Object.values(areas).reduce((a, b) => a + b, 0);
-    const max = Math.max(...Object.values(areas));
     countUp(total);
 
-    const prog = document.getElementById("wlProgress");
-    prog.setAttribute("aria-valuenow", total);
-    prog.firstElementChild.style.width = `${Math.min(total / WL_GOAL, 1) * 100}%`;
+    const C = 2 * Math.PI * 52;
+    document.querySelector(".ring__fill").style.strokeDashoffset = C * (1 - Math.min(total / WL_GOAL, 1));
+    document.getElementById("wlRing").setAttribute("aria-label", `${total} of ${WL_GOAL} founding spots taken`);
     document.getElementById("wlLeft").textContent = Math.max(WL_GOAL - total, 0);
 
-    document.getElementById("wlAreas").innerHTML = Object.entries(areas)
-      .filter(([, n]) => n > 0)
-      .sort((a, b) => b[1] - a[1])
-      .map(([area, n]) => `<li title="${area}: ${n} households (${Math.round((n / total) * 100)}%)">
-        <span>${area}${me && me.area === area ? "<em>you</em>" : ""}</span>
-        <span class="bar" aria-hidden="true"><i style="width:${(n / max) * 100}%"></i></span>
-        <b>${n}</b></li>`).join("");
-
-    const feed = WL_SAMPLE.feed.map((f) => ({ ...f, text: `A household in ${f.area} joined` }));
-    if (me) feed.unshift({ area: me.area, mins: (Date.now() - me.ts) / 60000, text: `You joined from ${me.area}`, you: true });
-    document.getElementById("wlFeed").innerHTML = feed.slice(0, 4).map((f, i) =>
-      `<li class="${f.you ? "is-you" : ""}${fresh && i === 0 ? " is-new" : ""}">${f.text}<time>${ago(f.mins)}</time></li>`).join("");
+    tickerLines = WL_SAMPLE.feed.map((f) => ({ ...f, text: `New sign-up in ${f.area}` }));
+    if (me) tickerLines.unshift({ mins: (Date.now() - me.ts) / 60000, text: `You joined from ${me.area}` });
+    startTicker();
   }
-  renderInterest(false);
+  // fill the ring and count up the first time the card scrolls into view
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((en) => {
+      if (en.some((e) => e.isIntersecting)) { io.disconnect(); renderInterest(); }
+    }, { threshold: 0.4 });
+    io.observe(document.querySelector(".interest"));
+  } else renderInterest();
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -511,7 +528,7 @@
     msg.textContent = already
       ? `Updated. You're on the list for ${me.area}.`
       : `You're on the list. We'll email you before Zad launches in ${me.area}.`;
-    renderInterest(true);
+    renderInterest();
     if (!already) track("waitlist_signup", { area: me.area });
   });
 

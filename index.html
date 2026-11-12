@@ -429,10 +429,10 @@
           <p>We're launching with a small group of households in Doha. Join the list and get your first box at half price.</p>
           <form class="waitlist__form" id="waitlistForm" novalidate>
             <label class="sr-only" for="email">Email address</label>
-            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+            <input id="email" name="email" type="email" placeholder="Your email" autocomplete="email" required>
             <label class="sr-only" for="wlArea">Your area</label>
             <select id="wlArea" name="area" required>
-              <option value="">Your area</option>
+              <option value="">Area</option>
               <option>Doha</option><option>Al Rayyan</option><option>Al Wakrah</option><option>Lusail</option><option>The Pearl</option><option>Other area</option>
             </select>
             <button class="btn btn--primary" type="submit">Join the list</button>
@@ -441,18 +441,21 @@
         </div>
 
         <aside class="interest" aria-labelledby="interestTitle">
-          <h3 id="interestTitle">Who's already waiting</h3>
-          <p class="interest__big"><strong id="wlTotal">0</strong> <span>households on the list</span></p>
-          <div class="interest__progress" id="wlProgress" role="progressbar" aria-label="Founding spots filled" aria-valuemin="0" aria-valuemax="500" aria-valuenow="0"><span></span></div>
-          <p class="interest__spots"><b id="wlLeft">500</b> of 500 founding spots left</p>
-
-          <h4>Sign-ups by area</h4>
-          <ul class="interest__areas" id="wlAreas"></ul>
-
-          <h4>Latest sign-ups</h4>
-          <ul class="interest__feed" id="wlFeed"></ul>
-
-          <p class="interest__note">Sample figures for the class prototype. Your own sign-up is added live.</p>
+          <div class="interest__top">
+            <div class="ring" id="wlRing" role="img" aria-label="0 of 500 founding spots taken">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="ring__track" cx="60" cy="60" r="52"/>
+                <circle class="ring__fill" cx="60" cy="60" r="52"/>
+              </svg>
+              <div class="ring__label" aria-hidden="true"><strong id="wlTotal">0</strong><span>of 500</span></div>
+            </div>
+            <div class="interest__copy">
+              <h3 id="interestTitle">households already waiting for Zad</h3>
+              <p>Only <b id="wlLeft">500</b> founding spots left.</p>
+            </div>
+          </div>
+          <p class="interest__ticker"><span class="interest__pulse" aria-hidden="true"></span><span id="wlTicker"></span></p>
+          <p class="interest__note">Sample figures for the class prototype</p>
         </aside>
       </div>
     </section>
