@@ -518,6 +518,7 @@ a { color: var(--carrot-ink); }
 
 /* social proof: who is already on the list */
 .interest {
+  justify-self: center; width: 100%; max-width: 460px;
   background: var(--paper); color: var(--cocoa);
   border-radius: 28px; padding: clamp(22px, 3vw, 30px);
   transform: rotate(1.2deg);
@@ -780,7 +781,6 @@ a { color: var(--carrot-ink); }
   .faq .section__head { position: static; }
   .faq .section__head h2 { white-space: normal; }
   .waitlist__inner { grid-template-columns: 1fr; }
-  .interest { max-width: 460px; }
   .steps { grid-template-columns: repeat(2, 1fr); row-gap: 40px; }
   .recipes { grid-template-columns: repeat(2, 1fr); }
   .touch__inner { grid-template-columns: 1fr; }
