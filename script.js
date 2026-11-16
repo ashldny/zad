@@ -611,6 +611,87 @@
     requestAnimationFrame(tick);
   })();
 
+  /* ---------- cook-along video preview ---------- */
+  (() => {
+    const player = document.getElementById("player");
+    if (!player) return;
+    const STEPS = [
+      { t: 0,   en: "Rinse the rice until the water runs clear.", ar: "اغسل الأرز حتى يصفو الماء.", need: ["Sella basmati rice, 180 g"] },
+      { t: 40,  en: "Brown the chicken on both sides, about 6 minutes.", ar: "حمّر الدجاج من الجهتين لمدة ٦ دقائق تقريبًا.", need: ["Chicken thighs, 400 g", "Ghee", "Onion"] },
+      { t: 90,  en: "Stir in the bzar and the pierced loomi.", ar: "أضف البزار واللومي المثقوب وقلّب.", need: ["Zad bzar, 12 g", "Dried lime (loomi)", "Garlic"] },
+      { t: 150, en: "Add the rice and water, cover and simmer for 25 minutes.", ar: "أضف الأرز والماء، ثم غطِّ القدر واتركه على نار هادئة ٢٥ دقيقة.", need: ["Rinsed rice", "Water, 400 ml"] },
+      { t: 215, en: "Serve with the chicken on top and daqoos on the side.", ar: "قدّمه والدجاج في الأعلى والدقوس بجانبه.", need: ["Vine tomatoes", "Coriander"] },
+    ];
+    const TOTAL = 250, SPEED = 10; // a 4:10 video, previewed ten times faster
+    const $ = (id) => document.getElementById(id);
+    const cap = $("vCap"), chip = $("vChip"), fill = $("vFill"), now = $("vNow"), need = $("vNeed"),
+          playBtn = $("vPlay"), langBtn = $("vLang"), bar = $("vTrack");
+    const chapters = [...document.querySelectorAll("#vChapters button")];
+    let t = 0, step = -1, playing = false, arabic = false, last = 0, started = false;
+
+    const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+    const stepAt = (s) => STEPS.reduce((k, st, i) => (s >= st.t ? i : k), 0);
+
+    function render(force) {
+      fill.style.width = `${(t / TOTAL) * 100}%`;
+      now.textContent = fmt(t);
+      const i = stepAt(t);
+      if (i === step && !force) return;
+      step = i;
+      const s = STEPS[i];
+      player.dataset.step = i;
+      chip.textContent = `Step ${i + 1} of ${STEPS.length}`;
+      cap.textContent = arabic ? s.ar : s.en;
+      cap.lang = arabic ? "ar" : "en";
+      cap.dir = arabic ? "rtl" : "ltr";
+      need.innerHTML = s.need.map((n) => `<span>${n}</span>`).join("");
+      chapters.forEach((b, k) => {
+        b.classList.toggle("is-on", k === i);
+        b.setAttribute("aria-current", k === i ? "step" : "false");
+      });
+    }
+    function setPlaying(on) {
+      playing = on;
+      player.classList.toggle("is-playing", on);
+      playBtn.setAttribute("aria-label", on ? "Pause preview" : "Play preview");
+      if (on) {
+        if (t >= TOTAL) t = 0;
+        last = performance.now();
+        if (!started) { started = true; track("video_play", { recipe: "machboos" }); }
+        requestAnimationFrame(loop);
+      }
+    }
+    function loop(ts) {
+      if (!playing) return;
+      t = Math.min(TOTAL, t + ((ts - last) / 1000) * SPEED);
+      last = ts;
+      render();
+      if (t >= TOTAL) { setPlaying(false); return; }
+      requestAnimationFrame(loop);
+    }
+    const jump = (i) => { t = STEPS[Math.max(0, Math.min(STEPS.length - 1, i))].t; render(true); };
+
+    playBtn.addEventListener("click", () => setPlaying(!playing));
+    $("vNext").addEventListener("click", () => jump(step + 1));
+    $("vPrev").addEventListener("click", () => jump(step - 1));
+    chapters.forEach((b) => b.addEventListener("click", () => { jump(+b.dataset.i); if (!playing) setPlaying(true); }));
+    langBtn.addEventListener("click", () => {
+      arabic = !arabic;
+      langBtn.setAttribute("aria-pressed", String(arabic));
+      render(true);
+    });
+    bar.addEventListener("click", (e) => {
+      const r = bar.getBoundingClientRect();
+      t = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * TOTAL;
+      render(true);
+    });
+    // pause when the preview scrolls out of view
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([e]) => { if (!e.isIntersecting && playing) setPlaying(false); }).observe(player);
+    }
+    render(true);
+  })();
+
   /* ---------- nav ---------- */
   const nav = document.querySelector(".nav");
   const onScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 8);
